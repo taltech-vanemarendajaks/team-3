@@ -472,6 +472,11 @@ databaseChangeLog:
   - changeSet:
       id: 010-seed-bar-inventory
       author: fred
+      preconditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            expectedResult: 0
+            sql: SELECT COUNT(*) FROM categories WHERE organization_id = 2 AND name = 'Beer'
       changes:
         # Insert drink categories for TalTech ITÜK
         - insert:
