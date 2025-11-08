@@ -136,20 +136,21 @@ export default function ClientProductsByCategory() {
                                                                 </div>
                                                                 <div className={clsx("flex items-center gap-4 shrink-0", {
                                                                     'transition-all duration-300': true,
-                                                                    'pointer-events-none blur-xs': loading,
+                                                                    'pointer-events-none blur-[2px]': loading,
                                                                     'blur-none': !loading
                                                                 })}>
                                                                     {/* Price */}
                                                                     <span className="text-sm font-semibold text-[#f1efff] tabular-nums">
                                                                         {money(Number(p.unitPrice))}
                                                                     </span>
-                                                                    {(!!p.basePrice && (p.basePrice != p.unitPrice)) &&
-                                                                        <span className={clsx("text-xs font-semibold tabular-nums", {
-                                                                            'text-green-400 animate-bounce': p.unitPrice < p.basePrice,
-                                                                            'text-red-400 before:content-["+"] animate-pulse': p.unitPrice > p.basePrice,
-                                                                        })}>
-                                                                            {money(Number(p.unitPrice - p.basePrice))}
-                                                                        </span>}
+
+                                                                    <span className={clsx("text-xs font-semibold tabular-nums w-[55px]", {
+                                                                        'text-green-400 animate-bounce': p.unitPrice < p.basePrice,
+                                                                        'text-red-400 before:content-["+"] animate-pulse': p.unitPrice > p.basePrice,
+                                                                        'text-white/20 before:content-["+"]': p.unitPrice == p.basePrice,
+                                                                    })}>
+                                                                        {money(Number(p.unitPrice - p.basePrice))}
+                                                                    </span>
                                                                 </div>
                                                             </li>
                                                         ))}
