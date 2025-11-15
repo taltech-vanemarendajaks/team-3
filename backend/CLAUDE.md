@@ -11,6 +11,7 @@ Borsibaar backend is a Spring Boot 3.5.5 application using Java 21, designed as 
 ## Core Domain Model
 
 The application follows a multi-tenant architecture where each organization has its own:
+
 - **Products**: Items with pricing (base/min/max prices), organized into categories
 - **Categories**: Product groupings with dynamic pricing flags
 - **Inventory**: Current stock quantities per product
@@ -18,6 +19,7 @@ The application follows a multi-tenant architecture where each organization has 
 - **Users**: Organization members with roles (USER, ADMIN)
 
 Key entities:
+
 - `Organization` - Tenant root entity
 - `User` - OAuth2 authenticated users with organization membership
 - `Product` - Catalog items with pricing and categories
@@ -56,9 +58,11 @@ src/main/java/com/borsibaar/backend/
 ## Database Schema & Migrations
 
 **CRITICAL**: All database schema changes are managed in a single Liquibase file:
+
 - `src/main/resources/db/changelog/db.changelog-master.yaml`
 
 This file contains the complete database schema evolution with numbered changesets:
+
 - 000-enable-citext: PostgreSQL case-insensitive text extension
 - 001-create-organizations: Base tenant table
 - 002-create-roles: USER/ADMIN roles
@@ -72,6 +76,7 @@ This file contains the complete database schema evolution with numbered changese
 - 010-seed-bar-inventory: Sample data for TalTech ITÜK organization
 
 **Important constraints**:
+
 - Organizations, products, and categories use case-insensitive CITEXT for names
 - Inventory quantities must be non-negative (CHECK constraint)
 - Unique constraints prevent duplicate names within organizations
@@ -103,7 +108,7 @@ docker compose exec backend ./mvnw test
 docker compose exec backend ./mvnw test -Dtest=ClassNameTest
 
 # Run tests for specific package inside container
-docker compose exec backend ./mvnw test -Dtest="com.borsibaar.backend.service.*"
+docker compose exec backend ./mvnw test -Dtest="com.borsibaar.service.*"
 
 # Build the backend inside container
 docker compose exec backend ./mvnw clean package
@@ -131,6 +136,7 @@ docker compose restart backend
 ## Configuration
 
 Environment variables (loaded via Spring DotEnv from `.env` files):
+
 - `SPRING_DATASOURCE_URL/USERNAME/PASSWORD` - PostgreSQL connection
 - `GOOGLE_CLIENT_ID/CLIENT_SECRET` - OAuth2 Google integration
 - `JWT_SECRET` - JWT token signing key
@@ -148,6 +154,7 @@ CORS is configured for `http://localhost:3000` (frontend development).
 ## Inventory System
 
 The inventory system supports:
+
 - **Stock tracking**: Real-time quantity management per product
 - **Transaction logging**: Immutable audit trail of all stock changes
 - **Stock operations**: Add, remove, adjust inventory with automatic transaction creation
@@ -159,6 +166,7 @@ Transaction types: SALE, PURCHASE, ADJUSTMENT, RETURN, TRANSFER_IN, TRANSFER_OUT
 ## Testing Strategy
 
 When writing tests inside Docker containers:
+
 - Use `@SpringBootTest` for integration tests
 - Test repositories with `@DataJpaTest`
 - Mock services in controller tests
@@ -169,6 +177,7 @@ When writing tests inside Docker containers:
 ## Debugging
 
 For debugging the backend:
+
 1. Use `docker compose logs -f backend` to view application logs
 2. Access the container shell with `docker compose exec backend bash`
 3. Check application properties and environment variables inside container
