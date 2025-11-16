@@ -32,8 +32,6 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
-    env_file:
-      - frontend/.env.production
     ports:
       - "3000:3000"
     restart: unless-stopped
