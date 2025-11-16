@@ -36,7 +36,7 @@ export function CartSidebar({
   );
 
   return (
-    <div className="w-80 bg-card rounded-lg shadow-sm p-6">
+    <div className="w-full lg:w-80 bg-card rounded-lg shadow-sm p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-gray-100">Cart</h2>
         <DollarSign className="w-6 h-6 text-green-400" />

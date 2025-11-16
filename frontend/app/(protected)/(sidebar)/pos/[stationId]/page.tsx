@@ -266,18 +266,15 @@ export default function POSStation() {
         />
 
         {/* Main Content */}
-        <div className="flex gap-6">
+        <div className="flex flex-col lg:flex-row gap-6">
           {/* Products Grid */}
-          <div className="flex-1">
+          <div className="flex-1 order-2 lg:order-1">
             <div
-              className={clsx(
-                "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4",
-                {
-                  "transition-all duration-300": true,
-                  "pointer-events-none blur-xs": loading,
-                  "blur-none": !loading,
-                }
-              )}
+              className={clsx("grid grid-cols-1 sm:grid-cols-2 gap-4", {
+                "transition-all duration-300": true,
+                "pointer-events-none blur-xs": loading,
+                "blur-none": !loading,
+              })}
             >
               {filteredProducts.map((product) => {
                 const cartItem = cart.find(
@@ -296,15 +293,18 @@ export default function POSStation() {
             </div>
           </div>
 
-          <CartSidebar
-            cart={cart}
-            currentUser={currentUser}
-            isProcessingSale={isProcessingSale}
-            onUpdateQuantity={updateCartQuantity}
-            onRemoveItem={removeFromCart}
-            onProcessSale={processSale}
-            onClearCart={clearCart}
-          />
+          {/* Cart Sidebar - moves below filter on smaller screens */}
+          <div className="order-1 lg:order-2 lg:w-80">
+            <CartSidebar
+              cart={cart}
+              currentUser={currentUser}
+              isProcessingSale={isProcessingSale}
+              onUpdateQuantity={updateCartQuantity}
+              onRemoveItem={removeFromCart}
+              onProcessSale={processSale}
+              onClearCart={clearCart}
+            />
+          </div>
         </div>
       </div>
     </div>
