@@ -9,7 +9,7 @@ variables:
   DOCKER_COMPOSE_FILE: "docker-compose.yaml"
 
 before_script:
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - 'which ssh-agent || apk add --no-cache openssh-client'
   - eval $(ssh-agent -s)
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
   - mkdir -p ~/.ssh
@@ -54,6 +54,9 @@ deploy-job:
   script:
     - echo "Starting deployment..."
     
+    # Copy the env file from GitLab CI/CD variable
+    - cp $ENV_PRODUCTION_FILE .env.production
+    
     # Create deployment package
     - tar czf deployment.tar.gz backend/target/*.jar frontend/.next/ frontend/public/ frontend/package*.json docker-compose.yml backend/Dockerfile frontend/Dockerfile .env.production
     
@@ -62,7 +65,7 @@ deploy-job:
     
     # Deploy on server
     - |
-        ssh $SSH_USER@$SERVER_IP << 'EOF'
+        ssh $SSH_USER@$SERVER_IP << EOF
         set -e
         cd $DEPLOY_PATH
         
