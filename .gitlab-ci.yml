@@ -100,3 +100,4 @@ deploy-job:
     url: http://$SERVER_IP
   only:
     - main
+    - 22-create-a-pipeline-for-the-server
