@@ -4,6 +4,7 @@ import com.borsibaar.entity.Inventory;
 import com.borsibaar.entity.InventoryTransaction;
 import com.borsibaar.entity.Product;
 import com.borsibaar.repository.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class PriceCorrectionJob {
 
@@ -29,11 +31,11 @@ public class PriceCorrectionJob {
 
     @Scheduled(cron = "0 * * * * *")
     public void adjustPrices() {
-        System.out.println("Running price reduction job");
+        log.debug("Running price reduction job");
         List<Product> inactiveProducts = productRepository.findByActiveOrgAndInactiveSalesLastMinute();
 
         if (inactiveProducts.isEmpty()) {
-            System.out.println("No product prices to update automatically");
+            log.debug("No product prices to update automatically");
             return;
         }
 
@@ -85,6 +87,6 @@ public class PriceCorrectionJob {
 
             updatedCount++;
         }
-        System.out.println("Updated prices of " + updatedCount + " products.");
+        log.info("Price reduction job completed. Updated prices of {} products.", updatedCount);
     }
 }
