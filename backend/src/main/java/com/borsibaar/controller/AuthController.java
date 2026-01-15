@@ -28,19 +28,11 @@ public class AuthController {
     public void success(HttpServletResponse response, OAuth2AuthenticationToken auth) throws IOException {
         var result = authService.processOAuthLogin(auth);
 
-        // Use ResponseCookie for cross-domain support (SameSite=None)
-        ResponseCookie cookie = ResponseCookie.from("jwt", result.dto().token())
-                .httpOnly(true)
-                .secure(true) // Required for SameSite=None
-                .path("/")
-                .maxAge(24 * 60 * 60) // 1 day
-                .sameSite("None") // Required for cross-domain (Vercel <-> Render)
-                .build();
-        
-        response.addHeader("Set-Cookie", cookie.toString());
-
+        // Pass token via URL parameter for cross-domain cookie setting
+        // Frontend will set the cookie via API route
+        String token = result.dto().token();
         String redirect = result.needsOnboarding() ? "/onboarding" : "/dashboard";
-        response.sendRedirect(frontendUrl + redirect);
+        response.sendRedirect(frontendUrl + "/api/auth/callback?token=" + token + "&redirect=" + redirect);
     }
 
     @PostMapping("/logout")

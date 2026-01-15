@@ -24,6 +24,12 @@ async function fetchUser(req: NextRequest) {
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  
+  // Skip middleware for API routes (except auth callback)
+  if (pathname.startsWith("/api/")) {
+    return NextResponse.next();
+  }
+  
   if (
     !["/login", "/dashboard", "/onboarding", "/pos"].some((p) =>
       pathname.startsWith(p)
