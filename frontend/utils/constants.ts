@@ -13,4 +13,6 @@
  *
  * Note: Browser API calls go through Next.js proxy, not directly to backend
  */
-export const backendUrl = process.env.BACKEND_URL ?? "http://localhost:8080";
+// export const backendUrl = process.env.BACKEND_URL ?? "http://localhost:8080";
+// export const backendUrl = "https://vanemarendaja-borsibaar.onrender.com";
+export const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8080";

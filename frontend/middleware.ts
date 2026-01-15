@@ -1,9 +1,10 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-// Middleware runs server-side in Docker container, so it can use BACKEND_URL directly
-// This avoids going through nginx and Next.js API routes
-const backendUrl = process.env.BACKEND_URL || "http://localhost:8080";
+// Middleware runs server-side
+// On Vercel: use NEXT_PUBLIC_BACKEND_URL (public URL)
+// In Docker: use BACKEND_URL (internal network)
+const backendUrl = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
 
 async function fetchUser(req: NextRequest) {
   try {
@@ -23,6 +24,12 @@ async function fetchUser(req: NextRequest) {
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  
+  // Skip middleware for API routes (except auth callback)
+  if (pathname.startsWith("/api/")) {
+    return NextResponse.next();
+  }
+  
   if (
     !["/login", "/dashboard", "/onboarding", "/pos"].some((p) =>
       pathname.startsWith(p)

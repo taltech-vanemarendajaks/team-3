@@ -1,11 +1,11 @@
 package com.borsibaar.controller;
 
 import com.borsibaar.service.AuthService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -28,15 +28,11 @@ public class AuthController {
     public void success(HttpServletResponse response, OAuth2AuthenticationToken auth) throws IOException {
         var result = authService.processOAuthLogin(auth);
 
-        Cookie cookie = new Cookie("jwt", result.dto().token());
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true); // HTTPS enabled with domain
-        cookie.setPath("/");
-        cookie.setMaxAge(24 * 60 * 60); // 1 day
-        response.addCookie(cookie);
-
+        // Pass token via URL parameter for cross-domain cookie setting
+        // Frontend will set the cookie via API route
+        String token = result.dto().token();
         String redirect = result.needsOnboarding() ? "/onboarding" : "/dashboard";
-        response.sendRedirect(frontendUrl + redirect);
+        response.sendRedirect(frontendUrl + "/api/auth/callback?token=" + token + "&redirect=" + redirect);
     }
 
     @PostMapping("/logout")
@@ -50,13 +46,15 @@ public class AuthController {
         // Clear the Spring Security context
         SecurityContextHolder.clearContext();
 
-        // Clear the JWT cookie
-        Cookie jwtCookie = new Cookie("jwt", "");
-        jwtCookie.setHttpOnly(true);
-        jwtCookie.setSecure(true); // HTTPS enabled with domain
-        jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(0); // Expire immediately
-        response.addCookie(jwtCookie);
+        // Clear the JWT cookie (use ResponseCookie for cross-domain support)
+        ResponseCookie jwtCookie = ResponseCookie.from("jwt", "")
+                .httpOnly(true)
+                .secure(true) // Required for SameSite=None
+                .path("/")
+                .maxAge(0) // Expire immediately
+                .sameSite("None") // Required for cross-domain (Vercel <-> Render)
+                .build();
+        response.addHeader("Set-Cookie", jwtCookie.toString());
 
         return ResponseEntity.ok().body(new LogoutResponse("Logged out successfully"));
     }

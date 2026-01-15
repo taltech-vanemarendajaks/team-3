@@ -24,9 +24,9 @@ export async function getCurrentUser(): Promise<Result> {
   const cookieHeader = cookieStore.toString();
   if (cookieHeader) headers.cookie = cookieHeader;
 
-  // Server-side: use BACKEND_URL directly (Docker internal network)
+  // Server-side: use BACKEND_URL (Docker internal) or NEXT_PUBLIC_BACKEND_URL (Vercel)
   // This is more efficient than going through Next.js API route
-  const backendUrl = process.env.BACKEND_URL || "http://localhost:8080";
+  const backendUrl = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
 
   let res: Response | null = null;
   try {

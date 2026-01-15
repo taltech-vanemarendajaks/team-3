@@ -6,11 +6,13 @@ import com.borsibaar.service.InventoryService;
 import com.borsibaar.util.SecurityUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/inventory")
 @RequiredArgsConstructor
@@ -44,9 +46,7 @@ public class InventoryController {
     @ResponseStatus(HttpStatus.CREATED)
     public InventoryResponseDto addStock(@RequestBody @Valid AddStockRequestDto request) {
         User user = SecurityUtils.getCurrentUser();
-        System.out.println("Received request: " + request); // DEBUG
-        System.out.println("ProductId: " + request.productId()); // DEBUG
-        System.out.println("Quantity: " + request.quantity()); // DEBUG
+        log.debug("Adding stock - productId: {}, quantity: {}", request.productId(), request.quantity());
 
         return inventoryService.addStock(request, user.getId(), user.getOrganizationId());
     }

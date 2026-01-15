@@ -1,10 +1,67 @@
+# Environment files
 backend/.env
 .env
-.idea/
+.env.local
+.env.*.local
+.env.production
+.env.development
 
+# IDE
+.idea/
 .vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
 
 # SSL certificates (copied during deployment, not committed)
 nginx/ssl/
 *.pem
 *.key
+
+# Java/Maven
+backend/target/
+backend/**/target/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
+# Maven wrapper (if not needed in repo)
+# backend/.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Docker
+docker-compose.override.yml
+*.dockerignore.local
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+*.cache
+
+# Build artifacts
+dist/
+build/
+out/
