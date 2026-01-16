@@ -1,17 +1,13 @@
-# fly.toml app configuration file generated for backend-7hxyz on 2026-01-15T23:48:51Z
+# fly.toml app configuration file generated for vanemarendaja-borsibaar-backend on 2026-01-16T00:28:38Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'backend'
+app = 'vanemarendaja-borsibaar-backend'
 primary_region = 'arn'
 
 [build]
 
-[env]
-  SERVER_ADDRESS = '0.0.0.0'
-  SERVER_PORT = '8080'
-  
 [http_service]
   internal_port = 8080
   force_https = true
