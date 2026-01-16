@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { backendUrl } from "@/utils/constants";
 
+export const runtime = 'edge';
+
 export async function POST(request: NextRequest) {
   try {
     // Call backend logout endpoint to invalidate session

@@ -1,6 +1,8 @@
 import {NextRequest, NextResponse} from "next/server";
 import { backendUrl } from "@/utils/constants";
 
+export const runtime = 'edge';
+
 export async function DELETE(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
