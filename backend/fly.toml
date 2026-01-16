@@ -3,11 +3,15 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'backend-7hxyz'
-primary_region = 'iad'
+app = 'backend'
+primary_region = 'arn'
 
 [build]
 
+[env]
+  SERVER_ADDRESS = '0.0.0.0'
+  SERVER_PORT = '8080'
+  
 [http_service]
   internal_port = 8080
   force_https = true
