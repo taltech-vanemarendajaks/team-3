@@ -49,6 +49,36 @@ cd frontend && npm run lint
 docker compose up
 ```
 
+### API Documentation (Swagger)
+
+The backend includes interactive API documentation powered by Swagger/OpenAPI:
+
+**Access Swagger UI**: http://localhost:8080/swagger-ui/index.html
+
+**Features**:
+- 📚 View all API endpoints with descriptions
+- 🧪 Test endpoints directly from the browser
+- 🔍 See request/response schemas and examples
+- 🔐 Test authenticated endpoints with JWT tokens
+
+**Using Swagger UI**:
+1. Start the backend (via Docker or locally)
+2. Open http://localhost:8080/swagger-ui/index.html in your browser
+3. Browse endpoints by expanding the sections
+4. Click "Try it out" on any endpoint to test it
+5. Use the "Authorize" button to add JWT token for protected endpoints
+
+**OpenAPI JSON**: http://localhost:8080/v3/api-docs
+
+**Note**: 
+- CORS is configured to allow requests from `http://localhost:8080` (Swagger UI) and `http://localhost:3000` (frontend). If you encounter CORS errors, ensure `app.cors.allowed-origins` includes both origins.
+- JWT tokens are generated server-side using `JWT_SECRET` environment variable. To test protected endpoints in Swagger UI, you need to:
+  1. Login via frontend first to get a JWT token
+  2. Extract the token from browser cookies
+  3. Use it in Swagger UI's "Authorize" button
+
+For detailed setup, usage instructions, and troubleshooting, see [SWAGGER.md](./SWAGGER.md).
+
 ## Key Backend Architecture
 
 The Spring Boot backend follows a layered architecture:
@@ -60,6 +90,18 @@ The Spring Boot backend follows a layered architecture:
 * **DTOs** (`dto/`): Request/Response data transfer objects
 * **Mappers** (`mapper/`): MapStruct mappers for entity-DTO conversion
 * **Config** (`config/`): Spring configuration classes
+* **Exception Handlers** (`exception/`): Global exception handling with `@RestControllerAdvice`
+
+### API Documentation
+
+The backend uses **SpringDoc OpenAPI** (Swagger) to automatically generate interactive API documentation:
+
+* **Configuration**: `config/OpenApiConfig.java` - Sets up API info, security schemes, and endpoint grouping
+* **Security**: Swagger UI paths are publicly accessible, but API endpoints still require authentication
+* **Documentation**: All endpoints are automatically documented with request/response schemas
+* **Testing**: Swagger UI provides an interactive interface to test endpoints directly from the browser
+
+See [SWAGGER.md](./SWAGGER.md) for complete setup guide and usage instructions.
 
 Key technologies:
 
@@ -68,6 +110,7 @@ Key technologies:
 * Liquibase for database migrations
 * MapStruct for object mapping
 * Lombok for reducing boilerplate
+* SpringDoc OpenAPI (Swagger) for API documentation
 
 ## Frontend Structure
 

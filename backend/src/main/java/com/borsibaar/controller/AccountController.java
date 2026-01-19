@@ -5,6 +5,7 @@ import com.borsibaar.entity.User;
 import com.borsibaar.repository.RoleRepository;
 import com.borsibaar.repository.UserRepository;
 import com.borsibaar.util.SecurityUtils;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +19,26 @@ public class AccountController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    public record MeResponse(String email, String name, String role, Long organizationId, boolean needsOnboarding) {
+    @Schema(description = "Current user information")
+    public record MeResponse(
+            @Schema(description = "User email", example = "user@example.com")
+            String email,
+            @Schema(description = "User name", example = "John Doe")
+            String name,
+            @Schema(description = "User role", example = "ADMIN")
+            String role,
+            @Schema(description = "Organization ID", example = "1")
+            Long organizationId,
+            @Schema(description = "Whether onboarding is required", example = "false")
+            boolean needsOnboarding) {
     }
 
-    public record onboardingRequest(Long organizationId, boolean acceptTerms) {
+    @Schema(description = "Onboarding completion request")
+    public record onboardingRequest(
+            @Schema(description = "Organization ID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+            Long organizationId,
+            @Schema(description = "Terms acceptance", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
+            boolean acceptTerms) {
     }
 
     @GetMapping

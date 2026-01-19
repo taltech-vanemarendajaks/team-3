@@ -1,5 +1,6 @@
 package com.borsibaar.exception;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,6 +30,7 @@ public class ApiExceptionHandler {
                 return problemDetail;
         }
 
+        @Hidden
         @ExceptionHandler(NotFoundException.class)
         public ProblemDetail handleNotFound(NotFoundException exception,
                         HttpServletRequest request) {
@@ -39,6 +41,7 @@ public class ApiExceptionHandler {
                                 request.getRequestURI());
         }
 
+        @Hidden
         @ExceptionHandler(DuplicateResourceException.class)
         public ProblemDetail handleDuplicate(DuplicateResourceException exception,
                         HttpServletRequest request) {
@@ -49,6 +52,7 @@ public class ApiExceptionHandler {
                                 request.getRequestURI());
         }
 
+        @Hidden
         @ExceptionHandler(BadRequestException.class)
         public ProblemDetail handleBadRequest(BadRequestException exception,
                         HttpServletRequest request) {
@@ -59,6 +63,7 @@ public class ApiExceptionHandler {
                                 request.getRequestURI());
         }
 
+        @Hidden
         @ExceptionHandler(MethodArgumentNotValidException.class)
         public ProblemDetail handleValidation(MethodArgumentNotValidException exception,
                         HttpServletRequest request) {
@@ -83,6 +88,7 @@ public class ApiExceptionHandler {
                 return problemDetail;
         }
 
+        @Hidden
         @ExceptionHandler(ConstraintViolationException.class)
         public ProblemDetail handleConstraintViolation(ConstraintViolationException exception,
                         HttpServletRequest request) {
@@ -97,6 +103,7 @@ public class ApiExceptionHandler {
                                 request.getRequestURI());
         }
 
+        @Hidden
         @ExceptionHandler(DataIntegrityViolationException.class)
         public ProblemDetail handleDataIntegrity(DataIntegrityViolationException exception,
                         HttpServletRequest request) {
@@ -107,6 +114,7 @@ public class ApiExceptionHandler {
                                 request.getRequestURI());
         }
 
+        @Hidden
         @ExceptionHandler(ResponseStatusException.class)
         public ProblemDetail handleResponseStatus(ResponseStatusException exception,
                         HttpServletRequest request) {
@@ -118,6 +126,7 @@ public class ApiExceptionHandler {
                 return problemDetail;
         }
 
+        @Hidden
         @ExceptionHandler(ErrorResponseException.class)
         public ProblemDetail handleErrorResponse(ErrorResponseException exception,
                         HttpServletRequest request) {
@@ -127,6 +136,7 @@ public class ApiExceptionHandler {
                 return problemDetail;
         }
 
+        @Hidden
         @ExceptionHandler(Exception.class)
         public ProblemDetail handleOther(Exception exception,
                         HttpServletRequest request) {
