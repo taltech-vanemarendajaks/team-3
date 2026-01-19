@@ -70,7 +70,14 @@ The backend includes interactive API documentation powered by Swagger/OpenAPI:
 
 **OpenAPI JSON**: http://localhost:8080/v3/api-docs
 
-For detailed setup and usage instructions, see [SWAGGER.md](./SWAGGER.md).
+**Note**: 
+- CORS is configured to allow requests from `http://localhost:8080` (Swagger UI) and `http://localhost:3000` (frontend). If you encounter CORS errors, ensure `app.cors.allowed-origins` includes both origins.
+- JWT tokens are generated server-side using `JWT_SECRET` environment variable. To test protected endpoints in Swagger UI, you need to:
+  1. Login via frontend first to get a JWT token
+  2. Extract the token from browser cookies
+  3. Use it in Swagger UI's "Authorize" button
+
+For detailed setup, usage instructions, and troubleshooting, see [SWAGGER.md](./SWAGGER.md).
 
 ## Key Backend Architecture
 

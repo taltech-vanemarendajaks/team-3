@@ -90,12 +90,18 @@ public class SecurityConfig {
     }
 
     @Value("${app.cors.allowed-origins}")
-    private String[] allowedOrigins;
+    private String allowedOriginsString;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
-        cfg.setAllowedOrigins(List.of(allowedOrigins)); // e.g. http://localhost:3000
+        
+        // Parse comma-separated origins string into list
+        // Spring's @Value with String[] should work, but let's be explicit
+        List<String> allowedOrigins = List.of(allowedOriginsString.split("\\s*,\\s*"));
+        
+        // Allow origins from configuration (supports multiple origins separated by comma)
+        cfg.setAllowedOrigins(allowedOrigins);
         cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("*"));
         cfg.setAllowCredentials(true); // since you send cookies

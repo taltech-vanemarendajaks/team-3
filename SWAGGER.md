@@ -92,6 +92,24 @@ We updated the security configuration to allow access to Swagger UI without auth
 - Allows access to the OpenAPI JSON specification
 - You still need authentication to actually call the API endpoints
 
+### CORS Configuration for Swagger UI
+
+Since Swagger UI runs on the same server (`http://localhost:8080`), we need to configure CORS to allow Swagger UI to make requests to the API endpoints.
+
+**File**: `backend/src/main/resources/application.properties`
+
+```properties
+app.cors.allowed-origins=${APP_CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:8080}
+```
+
+**What this does:**
+- Allows requests from `http://localhost:8080` (where Swagger UI is hosted)
+- Also allows requests from `http://localhost:3000` (frontend)
+- Spring automatically splits comma-separated origins into an array
+- This enables Swagger UI to make API calls without CORS errors
+
+**Important**: Without this configuration, you'll get CORS errors when trying to execute API requests from Swagger UI, even though Swagger UI and the API are on the same server!
+
 ---
 
 ## 📝 Step 4: Configure Application Properties
@@ -195,23 +213,102 @@ You should see a beautiful interface with all your API endpoints! 🎉
 ### Using Swagger UI
 
 1. **Browse endpoints** - Expand any endpoint to see its details
-2. **Try it out** - Click "Try it out" button on any endpoint
-3. **Fill parameters** - Enter required parameters
-4. **Execute** - Click "Execute" to make the API call
-5. **See response** - View the response body, status code, and headers
+2. **Authorize first** (for protected endpoints) - Click "Authorize" button and add your JWT token (see "Authenticating Requests" below)
+3. **Try it out** - Click "Try it out" button on any endpoint
+4. **Fill parameters** - Enter required parameters
+5. **Execute** - Click "Execute" to make the API call
+6. **See response** - View the response body, status code, and headers
+
+**Important**: Most endpoints require authentication. Make sure to authorize before testing protected endpoints, otherwise you'll get CORS errors due to OAuth2 redirects.
 
 ### Authenticating Requests
 
-For protected endpoints that require JWT authentication:
+For protected endpoints that require JWT authentication, you need to manually add the JWT token to Swagger UI:
 
-1. Click the **"Authorize"** button at the top right
-2. Enter your JWT token in the format: `Bearer <your-token>`
-3. Click "Authorize"
-4. Now all requests will include the authentication header
+#### Step 1: Get Your JWT Token
 
-**Note**: In our setup, JWT tokens are stored in cookies. Swagger UI doesn't automatically send cookies, so you may need to:
-- Use browser developer tools to get your JWT token from cookies
-- Or test endpoints that don't require authentication first
+Since JWT tokens are stored in HTTP-only cookies, you need to extract them from your browser:
+
+**Option A: Using Browser Developer Tools**
+1. Open your browser's Developer Tools (F12 or Right-click → Inspect)
+2. Go to the **Application** tab (Chrome) or **Storage** tab (Firefox)
+3. Navigate to **Cookies** → `http://localhost:8080`
+4. Find the cookie named `jwt`
+5. Copy its **Value**
+
+**Option B: Using Browser Console**
+1. Open Developer Tools (F12)
+2. Go to the **Console** tab
+3. Run this command:
+   ```javascript
+   document.cookie.split('; ').find(row => row.startsWith('jwt='))?.split('=')[1]
+   ```
+4. Copy the token value that appears
+
+**Option C: Login via Frontend First**
+1. Open your frontend application (http://localhost:3000)
+2. Login with Google OAuth
+3. The JWT token will be set in cookies
+4. Then extract it using Option A or B above
+
+#### Step 2: Add Token to Swagger UI
+
+1. In Swagger UI, click the **"Authorize"** button (🔒 icon) at the top right
+2. In the "bearerAuth" section, enter your JWT token in the format: `Bearer <your-token>`
+   - **Important**: Include the word "Bearer" followed by a space, then your token
+   - Example: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
+3. Click **"Authorize"**
+4. Click **"Close"**
+
+#### Step 3: Test Protected Endpoints
+
+Now all your API requests will include the `Authorization: Bearer <token>` header, and protected endpoints will work!
+
+**Note**: 
+- The token is valid for 24 hours
+- If you get 401 errors, your token may have expired - get a new one by logging in again
+- Swagger UI doesn't automatically send cookies, which is why we need to manually add the token
+
+---
+
+### Understanding JWT_SECRET
+
+**What is JWT_SECRET?**
+
+`JWT_SECRET` is a secret key used by the backend to **sign** and **verify** JWT tokens. It's NOT used directly in Swagger UI for authorization.
+
+**How it works:**
+
+1. **Token Creation (Signing)**:
+   - When a user logs in via Google OAuth, the backend receives the user's email
+   - Backend generates a JWT token containing the email
+   - Backend **signs** the token using `JWT_SECRET` (cryptographic signature)
+   - This signature ensures the token is authentic and hasn't been tampered with
+
+2. **Token Validation (Verification)**:
+   - When a request comes with a JWT token, the backend extracts it
+   - Backend **verifies** the signature using the same `JWT_SECRET`
+   - If signature is invalid → token is rejected
+   - If signature is valid → token is accepted
+
+**Why it's important:**
+- **Security**: Without the correct secret, tokens cannot be forged
+- **Integrity**: If a token is modified, the signature won't match
+- **Authentication**: Only your server can create valid tokens
+
+**In Swagger UI context:**
+- You don't use `JWT_SECRET` directly in Swagger UI
+- You need a **ready-made JWT token** that was created using this secret
+- The token is obtained after logging in through the frontend
+- In Swagger UI, you simply use the already-created token
+
+**Think of it like a seal on a document:**
+- `JWT_SECRET` = the secret seal/stamp
+- Creating a token = stamping the document
+- Verifying a token = checking if the seal is authentic
+
+**Summary:**
+`JWT_SECRET` is the key for creating and verifying tokens on the server. It's never sent to clients and not used for authorization in Swagger UI. In Swagger UI, you use a ready-made JWT token that was created using this secret after login.
 
 ---
 
@@ -259,6 +356,50 @@ Each endpoint shows:
 2. **Check logs** - Look for errors in backend logs
 3. **Verify security config** - Make sure Swagger paths are permitted
 4. **Check exception handlers** - Ensure they have `@Hidden` annotation
+
+### CORS errors when executing requests
+
+**Problem**: Getting "Failed to fetch" or "CORS" errors when trying to execute API requests from Swagger UI
+
+**Error message**: 
+```
+Failed to fetch.
+Possible Reasons:
+CORS
+Network Failure
+URL scheme must be "http" or "https" for CORS request.
+```
+
+**Common causes and solutions**:
+
+1. **Missing Authentication (Most Common)**
+   - **Symptom**: Error shows redirect to `https://accounts.google.com/o/oauth2/v2/auth`
+   - **Cause**: You're trying to access a protected endpoint without authentication
+   - **Solution**: 
+     - Get your JWT token from browser cookies (see "Authenticating Requests" section above)
+     - Click "Authorize" button in Swagger UI
+     - Enter token as `Bearer <your-token>`
+     - Then try the request again
+
+2. **CORS Configuration Issue**
+   - **Symptom**: Error mentions CORS but no OAuth redirect
+   - **Solution**: 
+     - Verify `app.cors.allowed-origins` includes `http://localhost:8080`
+     ```properties
+     app.cors.allowed-origins=${APP_CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:8080}
+     ```
+     - Restart backend (CORS config loads at startup)
+     - Check logs for "CORS allowed origins" message
+
+3. **Browser Cache**
+   - Clear browser cache or try incognito mode
+   - Hard refresh (Ctrl+Shift+R or Cmd+Shift+R)
+
+**Why this happens**: 
+- Protected endpoints require JWT authentication
+- Without a token, Spring Security redirects to OAuth2 login
+- Browsers block cross-origin redirects due to CORS policy
+- Solution: Add JWT token via "Authorize" button before making requests
 
 ### Endpoints not showing up
 
