@@ -400,7 +400,6 @@ URL scheme must be "http" or "https" for CORS request.
 - Without a token, Spring Security redirects to OAuth2 login
 - Browsers block cross-origin redirects due to CORS policy
 - Solution: Add JWT token via "Authorize" button before making requests
-
 ### Endpoints not showing up
 
 **Problem**: Some endpoints are missing from Swagger UI
