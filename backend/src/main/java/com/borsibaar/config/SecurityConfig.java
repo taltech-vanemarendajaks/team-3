@@ -67,6 +67,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Allow OPTIONS for CORS preflight
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Allow Swagger/OpenAPI endpoints
+                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**")
+                        .permitAll()
                         // Allow OAuth2 endpoints and public routes
                         .requestMatchers("/", "/error", "/oauth2/**", "/login/oauth2/code/**", "/auth/login/success")
                         .permitAll()
