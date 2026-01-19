@@ -67,6 +67,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Allow OPTIONS for CORS preflight
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Allow Swagger/OpenAPI endpoints
+                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**")
+                        .permitAll()
                         // Allow OAuth2 endpoints and public routes
                         .requestMatchers("/", "/error", "/oauth2/**", "/login/oauth2/code/**", "/auth/login/success")
                         .permitAll()
@@ -87,12 +90,18 @@ public class SecurityConfig {
     }
 
     @Value("${app.cors.allowed-origins}")
-    private String[] allowedOrigins;
+    private String allowedOriginsString;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
-        cfg.setAllowedOrigins(List.of(allowedOrigins)); // e.g. http://localhost:3000
+        
+        // Parse comma-separated origins string into list
+        // Spring's @Value with String[] should work, but let's be explicit
+        List<String> allowedOrigins = List.of(allowedOriginsString.split("\\s*,\\s*"));
+        
+        // Allow origins from configuration (supports multiple origins separated by comma)
+        cfg.setAllowedOrigins(allowedOrigins);
         cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("*"));
         cfg.setAllowCredentials(true); // since you send cookies

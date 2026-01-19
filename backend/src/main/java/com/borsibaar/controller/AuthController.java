@@ -1,6 +1,7 @@
 package com.borsibaar.controller;
 
 import com.borsibaar.service.AuthService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -59,6 +60,9 @@ public class AuthController {
         return ResponseEntity.ok().body(new LogoutResponse("Logged out successfully"));
     }
 
-    private record LogoutResponse(String message) {
+    @Schema(description = "Logout response")
+    private record LogoutResponse(
+            @Schema(description = "Message", example = "Logged out successfully")
+            String message) {
     }
 }
