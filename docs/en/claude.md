@@ -1,5 +1,35 @@
 # CLAUDE.md
 
+
+## 📋 Table of Contents
+
+  - [Project Overview](#project-overview)
+  - [Architecture](#architecture)
+  - [Development Commands](#development-commands)
+    - [Backend (Spring Boot)](#backend-spring-boot)
+- [Run backend with Maven wrapper](#run-backend-with-maven-wrapper)
+- [Build backend](#build-backend)
+- [Run tests](#run-tests)
+    - [Frontend (Next.js)](#frontend-nextjs)
+- [Development server with Turbopack](#development-server-with-turbopack)
+- [Build for production](#build-for-production)
+- [Start production server](#start-production-server)
+- [Lint code](#lint-code)
+    - [Docker Development](#docker-development)
+- [Start full development environment](#start-full-development-environment)
+- [Start specific services](#start-specific-services)
+  - [Key Backend Architecture](#key-backend-architecture)
+  - [Frontend Structure](#frontend-structure)
+  - [Database](#database)
+  - [Environment Setup](#environment-setup)
+  - [Key Dependencies](#key-dependencies)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
+
+---
+
+
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview

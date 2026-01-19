@@ -1,5 +1,43 @@
 # Borsibaari rakenduse äriloogika
 
+
+## 📋 Table of Contents
+
+  - [Üldkirjeldus](#üldkirjeldus)
+  - [Põhilised domeeniüksused](#põhilised-domeeniüksused)
+    - [1. Organization (Organisatsioon)](#1-organization-organisatsioon)
+    - [2. User (Kasutaja)](#2-user-kasutaja)
+    - [3. Category (Kategooria)](#3-category-kategooria)
+    - [4. Product (Toode)](#4-product-toode)
+    - [5. Inventory (Inventar)](#5-inventory-inventar)
+    - [6. InventoryTransaction (Inventari tehing)](#6-inventorytransaction-inventari-tehing)
+    - [7. BarStation (Baarijaam)](#7-barstation-baarijaam)
+  - [Põhilised äriprotsessid](#põhilised-äriprotsessid)
+    - [1. Autentimine ja autoriseerimine](#1-autentimine-ja-autoriseerimine)
+    - [2. Toodete haldus](#2-toodete-haldus)
+    - [3. Inventari haldus](#3-inventari-haldus)
+    - [4. Dünaamiline hinnastamine](#4-dünaamiline-hinnastamine)
+    - [5. Müük (POS)](#5-müük-pos)
+    - [6. Baarijaamade haldus](#6-baarijaamade-haldus)
+    - [7. Analüütika ja aruandlus](#7-analüütika-ja-aruandlus)
+    - [8. Tehingute ajalugu](#8-tehingute-ajalugu)
+  - [Ärireeglid ja piirangud](#ärireeglid-ja-piirangud)
+    - [1. Multi-tenant](#1-multi-tenant)
+    - [2. Laoseis](#2-laoseis)
+    - [3. Hinnastamine](#3-hinnastamine)
+    - [4. Tooted](#4-tooted)
+    - [5. Kasutajad](#5-kasutajad)
+    - [6. Tehingud](#6-tehingud)
+  - [Kasutajastsenaariumid](#kasutajastsenaariumid)
+    - [1. Administraator](#1-administraator)
+    - [2. Kasutaja (baarmen)](#2-kasutaja-baarmen)
+    - [3. Inventari haldur](#3-inventari-haldur)
+  - [Tehnilised eripärad](#tehnilised-eripärad)
+
+---
+
+
+
 ## Üldkirjeldus
 Lao-/inventari haldamise süsteem baaridele/restoranidele mitme rentniku (multi-tenant) arhitektuuriga. Iga organisatsioon haldab oma tooteid, inventari, kategooriaid, kasutajaid ja baarijaamu.
 

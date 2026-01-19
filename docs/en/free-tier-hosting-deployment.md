@@ -1,5 +1,27 @@
 # Hosting & Deployment Report (Free Tier)
 
+
+## 📋 Table of Contents
+
+  - [Current Working Setup](#current-working-setup)
+    - [Frontend Hosting](#frontend-hosting)
+    - [Backend Hosting](#backend-hosting)
+    - [Databases](#databases)
+  - [Comparison Table](#comparison-table)
+    - [Backend Hosting](#backend-hosting)
+    - [Databases](#databases)
+  - [Free-Tier Lifehacks](#free-tier-lifehacks)
+  - [CI/CD Behavior](#cicd-behavior)
+  - [Recommended Free Stack](#recommended-free-stack)
+  - [Architecture Diagram](#architecture-diagram)
+  - [Known Issues / TODO](#known-issues-todo)
+  - [Repository](#repository)
+  - [Summary](#summary)
+
+---
+
+
+
 This document summarizes the hosting, deployment setup, community input, and lessons learned for the **vanemarendaja-borsibaar** project.  
 Focus: **free-tier infrastructure**, trade-offs, and practical experience.
 

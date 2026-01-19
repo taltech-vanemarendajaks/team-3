@@ -1,5 +1,53 @@
 # Cloudflare Pages'i juurutamise juhend
 
+
+## 📋 Table of Contents
+
+  - [📋 Sisukord](#sisukord)
+  - [🎯 Ülevaade](#ülevaade)
+    - [Põhikomponendid:](#põhikomponendid)
+  - [📦 Eeltingimused](#eeltingimused)
+  - [🛠 Projekti ettevalmistus](#projekti-ettevalmistus)
+    - [1. Sõltuvuste paigaldamine](#1-sõltuvuste-paigaldamine)
+    - [2. Build skripti lisamine](#2-build-skripti-lisamine)
+    - [3. `.npmrc` faili loomine](#3-npmrc-faili-loomine)
+    - [4. `next.config.ts` uuendamine](#4-nextconfigts-uuendamine)
+  - [⚙️ Cloudflare Pages'i konfigureerimine](#cloudflare-pagesi-konfigureerimine)
+    - [Samm 1: Projekti loomine](#samm-1-projekti-loomine)
+    - [Samm 2: Build konfigureerimine](#samm-2-build-konfigureerimine)
+    - [Samm 3: Ühilduvuslipud](#samm-3-ühilduvuslipud)
+    - [Samm 4: Keskkonna muutujad](#samm-4-keskkonna-muutujad)
+  - [🔐 OAuth konfigureerimine](#oauth-konfigureerimine)
+    - [1. Google OAuth'i seadistamine](#1-google-oauthi-seadistamine)
+    - [2. Backend'i konfigureerimine](#2-backendi-konfigureerimine)
+- [Frontend rakenduse URL (ILMA lõpuslanguseta!)](#frontend-rakenduse-url-ilma-lõpuslanguseta)
+- [CORS'ile lubatud päritolud](#corsile-lubatud-päritolud)
+  - [📝 Koodi muudatused](#koodi-muudatused)
+    - [Cloudflare Pages'i muudatused](#cloudflare-pagesi-muudatused)
+      - [1. `frontend/package.json`](#1-frontendpackagejson)
+      - [2. `frontend/.npmrc` (uus fail)](#2-frontendnpmrc-uus-fail)
+      - [3. `frontend/next.config.ts`](#3-frontendnextconfigts)
+      - [4. Lisatud `export const runtime = 'edge'` kõigile API marsruutidele](#4-lisatud-export-const-runtime-edge-kõigile-api-marsruutidele)
+      - [5. Lisatud `export const runtime = 'edge'` dünaamilistele lehtedele](#5-lisatud-export-const-runtime-edge-dünaamilistele-lehtedele)
+    - [Muudetud failide kokkuvõte](#muudetud-failide-kokkuvõte)
+  - [🐛 Probleemide lahendamine](#probleemide-lahendamine)
+    - [Probleem: `cd: can't cd to frontend`](#probleem-cd-cant-cd-to-frontend)
+    - [Probleem: `no nodejs_compat compatibility flag set`](#probleem-no-nodejs_compat-compatibility-flag-set)
+    - [Probleem: `redirect_uri_mismatch` OAuth'is](#probleem-redirect_uri_mismatch-oauthis)
+    - [Probleem: Topeltkaldkriips URL'is (`//api/auth/callback`)](#probleem-topeltkaldkriips-urlis-apiauthcallback)
+    - [Probleem: `@cloudflare/next-on-pages` aegunud hoiatus](#probleem-cloudflarenext-on-pages-aegunud-hoiatus)
+    - [Probleem: Build õnnestub, kuid näitab "Hello world"](#probleem-build-õnnestub-kuid-näitab-hello-world)
+    - [Probleem: Marsruudid pole konfigureeritud Edge Runtime'i jaoks](#probleem-marsruudid-pole-konfigureeritud-edge-runtimei-jaoks)
+  - [✅ Juurutamise kontrollnimekiri](#juurutamise-kontrollnimekiri)
+  - [📚 Kasulikud lingid](#kasulikud-lingid)
+  - [🔄 Juurutamise protsess](#juurutamise-protsess)
+  - [📊 Build väljundi struktuur](#build-väljundi-struktuur)
+  - [🎉 Valmis!](#valmis)
+
+---
+
+
+
 Täielik juhend Next.js rakenduse juurutamiseks Cloudflare Pages'ile.
 
 ## 📋 Sisukord

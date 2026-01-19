@@ -1,5 +1,23 @@
 # Börsibaar
 
+## 📋 Table of Contents
+
+- [Project Overview](#project-overview)
+- [Architecture](#architecture)
+- [Development Commands](#development-commands)
+- [API Documentation (Swagger)](#api-documentation-swagger)
+- [Key Backend Architecture](#key-backend-architecture)
+- [Frontend Structure](#frontend-structure)
+- [Database](#database)
+- [Environment Setup](#environment-setup)
+- [Tech debt, things that could be improved](#tech-debt-things-that-could-be-improved)
+- [Documentation](#documentation)
+  - [English (en)](#english-en)
+  - [Estonian (et)](#estonian-et)
+  - [Russian (ru)](#russian-ru)
+
+---
+
 ## Project Overview
 
 Börsibaar is a full-stack web application with a Spring Boot backend and Next.js frontend. It provides inventory management, transaction tracking, and price optimization features for stock bar themed events. There is also a public page for seeing drink prices in a format that is similar to the stock market.
@@ -77,7 +95,7 @@ The backend includes interactive API documentation powered by Swagger/OpenAPI:
   2. Extract the token from browser cookies
   3. Use it in Swagger UI's "Authorize" button
 
-For detailed setup, usage instructions, and troubleshooting, see [SWAGGER.md](./SWAGGER.md).
+For detailed setup, usage instructions, and troubleshooting, see [Swagger Documentation](./docs/en/swagger.md).
 
 ## Key Backend Architecture
 
@@ -101,7 +119,7 @@ The backend uses **SpringDoc OpenAPI** (Swagger) to automatically generate inter
 * **Documentation**: All endpoints are automatically documented with request/response schemas
 * **Testing**: Swagger UI provides an interactive interface to test endpoints directly from the browser
 
-See [SWAGGER.md](./SWAGGER.md) for complete setup guide and usage instructions.
+See [Swagger Documentation](./docs/en/swagger.md) for complete setup guide and usage instructions.
 
 Key technologies:
 
@@ -238,3 +256,34 @@ server.forward-headers-strategy=framework
   _Modules: `frontend/app/**`, `frontend/utils/**`, backend DTO packages_
   - TypeScript types are currently hand‑written and can drift out of sync with backend DTOs; there is no code generation or shared contract layer.
   - Introducing generated types from OpenAPI / SpringDoc, or a shared package for DTO interfaces, would reduce duplication and runtime bugs.
+
+---
+
+## Documentation
+
+All project documentation is organized in the `docs/` folder, grouped by language:
+
+### English (en)
+
+- **[Swagger/OpenAPI Documentation](./docs/en/swagger.md)** - Complete guide to API documentation setup and usage
+- **[Business Logic Description](./docs/en/description.md)** - Detailed description of application business logic and domain entities
+- **[Free Tier Hosting Deployment](./docs/en/free-tier-hosting-deployment.md)** - Guide for deploying on free-tier hosting providers
+- **[Cloudflare Pages Deployment](./docs/en/cloudflare-pages-deployment.md)** - Step-by-step guide for deploying Next.js app on Cloudflare Pages
+- **[Claude AI Guide](./docs/en/claude.md)** - Guidance for Claude Code when working with this repository
+
+### Estonian (et)
+
+- **[Projekti seadistamise juhend](./docs/et/installation.md)** - Projekti installimise ja seadistamise juhend
+- **[Äriloogika kirjeldus](./docs/et/description.md)** - Rakenduse äriloogika ja domeeniüksuste üksikasjalik kirjeldus
+- **[Tehnilise võla analüüs](./docs/et/improve.md)** - Koodibaasi analüüs ja parendussoovitused
+- **[Cloudflare Pages'i juurutamine](./docs/et/cloudflare-pages-deployment.md)** - Juhend Next.js rakenduse juurutamiseks Cloudflare Pages'il
+
+### Russian (ru)
+
+- **[Описание бизнес-логики](./docs/ru/description.md)** - Подробное описание бизнес-логики приложения и доменных сущностей
+- **[Анализ технического долга](./docs/ru/improve.md)** - Анализ кодовой базы и рекомендации по улучшению
+- **[Развертывание на Cloudflare Pages](./docs/ru/cloudflare-pages-deployment.md)** - Пошаговое руководство по развертыванию Next.js приложения на Cloudflare Pages
+
+---
+
+**Note**: Some documents are available in multiple languages. Choose the language that suits you best. English documentation is the most comprehensive and up-to-date.

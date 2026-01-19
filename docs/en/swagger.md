@@ -1,5 +1,46 @@
 # 🚀 Swagger/OpenAPI Documentation Guide
 
+
+## 📋 Table of Contents
+
+  - [What is Swagger?](#what-is-swagger)
+  - [🎯 What We Added](#what-we-added)
+  - [📦 Step 1: Add Swagger Dependency](#step-1-add-swagger-dependency)
+  - [⚙️ Step 2: Create Swagger Configuration](#step-2-create-swagger-configuration)
+  - [🔐 Step 3: Configure Security](#step-3-configure-security)
+    - [CORS Configuration for Swagger UI](#cors-configuration-for-swagger-ui)
+  - [📝 Step 4: Configure Application Properties](#step-4-configure-application-properties)
+- [SpringDoc OpenAPI configuration](#springdoc-openapi-configuration)
+  - [🏷️ Step 5: Add Schema Annotations](#step-5-add-schema-annotations)
+  - [🚫 Step 6: Hide Exception Handlers](#step-6-hide-exception-handlers)
+  - [🚀 How to Use Swagger](#how-to-use-swagger)
+    - [Starting the Application](#starting-the-application)
+    - [Accessing Swagger UI](#accessing-swagger-ui)
+    - [Using Swagger UI](#using-swagger-ui)
+    - [Authenticating Requests](#authenticating-requests)
+      - [Step 1: Get Your JWT Token](#step-1-get-your-jwt-token)
+      - [Step 2: Add Token to Swagger UI](#step-2-add-token-to-swagger-ui)
+      - [Step 3: Test Protected Endpoints](#step-3-test-protected-endpoints)
+    - [Understanding JWT_SECRET](#understanding-jwt_secret)
+  - [🔍 Understanding the Swagger UI](#understanding-the-swagger-ui)
+    - [Main Sections](#main-sections)
+    - [Endpoint Details](#endpoint-details)
+    - [Response Codes](#response-codes)
+  - [🛠️ Troubleshooting](#troubleshooting)
+    - [Error 500 when accessing Swagger UI](#error-500-when-accessing-swagger-ui)
+    - [CORS errors when executing requests](#cors-errors-when-executing-requests)
+    - [Endpoints not showing up](#endpoints-not-showing-up)
+    - [Authentication not working](#authentication-not-working)
+  - [📚 Additional Resources](#additional-resources)
+  - [🎓 For Junior Developers: Key Takeaways](#for-junior-developers-key-takeaways)
+    - [Common Patterns](#common-patterns)
+    - [Best Practices](#best-practices)
+  - [🎉 You're All Set!](#youre-all-set)
+
+---
+
+
+
 ## What is Swagger?
 
 **Swagger** (now called **OpenAPI**) is a powerful tool that automatically generates interactive API documentation for your REST endpoints. Think of it as a **live, interactive manual** for your API that:
