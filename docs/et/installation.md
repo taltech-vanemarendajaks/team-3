@@ -1,5 +1,18 @@
 # Projekti seadistamise juhend
 
+
+## 📋 Table of Contents
+
+  - [Installerimine, Windows](#installerimine-windows)
+    - [1. Keskkonnamuutujate seadistamine (.env)](#1-keskkonnamuutujate-seadistamine-env)
+    - [2. Google API seadistamine](#2-google-api-seadistamine)
+    - [3. JWT saladuse (Secret) genereerimine](#3-jwt-saladuse-secret-genereerimine)
+    - [4. Rakenduse käivitamine](#4-rakenduse-käivitamine)
+
+---
+
+
+
 ## Installerimine, Windows
 
 Selleks, et projekt tööle saada, tuleb esmalt luua keskkonnamuutujate fail. Tee koopia `.sample.env` failist ja nimeta see ümber `.env`.

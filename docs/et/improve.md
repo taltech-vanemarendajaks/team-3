@@ -1,5 +1,49 @@
 # Tehnilise võla analüüs ja parendussoovitused
 
+
+## 📋 Table of Contents
+
+  - [Ülevaade](#ülevaade)
+  - [🔴 Kriitilised probleemid](#kriitilised-probleemid)
+    - [1. TypeScripti tüübikontroll on production build’is välja lülitatud](#1-typescripti-tüübikontroll-on-production-buildis-välja-lülitatud)
+    - [2. System.out.println kasutamine logimise asemel](#2-systemoutprintln-kasutamine-logimise-asemel)
+    - [3. organizationId dubleerimine Inventory-s](#3-organizationid-dubleerimine-inventory-s)
+  - [🟠 Olulised probleemid](#olulised-probleemid)
+    - [4. Ärireeglite valideerimise puudumine DTO-des](#4-ärireeglite-valideerimise-puudumine-dto-des)
+    - [5. N+1 probleem päringutes](#5-n1-probleem-päringutes)
+    - [6. Monoliitne Inventory komponent (1196 rida)](#6-monoliitne-inventory-komponent-1196-rida)
+    - [7. Tüüpide jagamise puudumine Frontendi ja Backendi vahel](#7-tüüpide-jagamise-puudumine-frontendi-ja-backendi-vahel)
+    - [8. Ebaühtlane vigade käsitlemine](#8-ebaühtlane-vigade-käsitlemine)
+    - [9. Organisatsiooni käsitsi kontroll igas meetodis](#9-organisatsiooni-käsitsi-kontroll-igas-meetodis)
+    - [10. Tehingutüüpide hardcode’itud stringid](#10-tehingutüüpide-hardcodeitud-stringid)
+  - [🟡 Struktuuri- ja arhitektuuriprobleemid](#struktuuri-ja-arhitektuuriprobleemid)
+    - [11. Vastutuste segunemine SalesService-s](#11-vastutuste-segunemine-salesservice-s)
+    - [12. Ebaefektiivne käibe arvutus](#12-ebaefektiivne-käibe-arvutus)
+    - [13. Kommenteeritud kood production’is](#13-kommenteeritud-kood-productionis)
+    - [14. Stringvõtmete kasutamine grupeerimiseks](#14-stringvõtmete-kasutamine-grupeerimiseks)
+    - [15. Frontendis puudub valideerimine](#15-frontendis-puudub-valideerimine)
+    - [16. Race condition’ite käsitlemine puudub](#16-race-conditionite-käsitlemine-puudub)
+    - [17. Organisatsiooni ID avalik ligipääs kontrolleris](#17-organisatsiooni-id-avalik-ligipääs-kontrolleris)
+    - [18. Struktureeritud logimise puudumine](#18-struktureeritud-logimise-puudumine)
+    - [19. Mitteoptimaalsed päringud statistikas](#19-mitteoptimaalsed-päringud-statistikas)
+    - [20. Puhverdus (caching) puudub](#20-puhverdus-caching-puudub)
+  - [🟢 Koodikvaliteedi parendused](#koodikvaliteedi-parendused)
+    - [21. Optional’i ebaühtlane kasutamine](#21-optionali-ebaühtlane-kasutamine)
+    - [22. “Magic numbers” ja stringid](#22-magic-numbers-ja-stringid)
+    - [23. API dokumentatsiooni puudumine](#23-api-dokumentatsiooni-puudumine)
+    - [24. Testid katavad peamiselt happy path’i](#24-testid-katavad-peamiselt-happy-pathi)
+    - [25. Mõõdikute ja monitooringu puudumine](#25-mõõdikute-ja-monitooringu-puudumine)
+  - [📋 Prioriteetide kokkuvõte](#prioriteetide-kokkuvõte)
+    - [Kriitilised (paranda kohe):](#kriitilised-paranda-kohe)
+    - [Kõrged (paranda lähiajal):](#kõrged-paranda-lähiajal)
+    - [Keskmised (planeeri järgmisse sprinti):](#keskmised-planeeri-järgmisse-sprinti)
+    - [Madalad (võib edasi lükata):](#madalad-võib-edasi-lükata)
+  - [🎯 Rakendamise soovitused](#rakendamise-soovitused)
+
+---
+
+
+
 ## Ülevaade
 
 See dokument sisaldab Borsibaari projekti koodibaasi analüüsi tehnilise võla, struktuuriprobleemide, parimate praktikatega vastuolude ja võimalike parenduste osas.
