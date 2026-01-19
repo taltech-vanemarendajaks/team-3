@@ -1,17 +1,12 @@
-# fly.toml app configuration file generated for backend-7hxyz on 2026-01-15T14:00:06+02:00
+# fly.toml app configuration file generated for vanemarendaja-borsibaar-backend on 2026-01-16T00:28:38Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'backend-7hxyz'
+app = 'vanemarendaja-borsibaar-backend'
 primary_region = 'arn'
 
 [build]
-
-[env]
-  SERVER_ADDRESS = '0.0.0.0'
-  SERVER_PORT = '8080'
-  JAVA_OPTS = "-Djava.net.preferIPv4Stack=true"
 
 [http_service]
   internal_port = 8080
@@ -22,7 +17,7 @@ primary_region = 'arn'
   processes = ['app']
 
 [[vm]]
-  memory = '2gb'
+  memory = '1gb'
   cpu_kind = 'shared'
-  cpus = 2
-  memory_mb = 2048
+  cpus = 1
+  memory_mb = 1024

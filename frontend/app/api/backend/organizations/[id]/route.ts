@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { backendUrl } from "@/utils/constants";
 
+export const runtime = 'edge';
+
 // Proxy endpoint for a single organization resource
 export async function GET(
   request: NextRequest,

@@ -10,6 +10,7 @@ import { ProductCard } from "./ProductCard";
 import { CartSidebar } from "./CartSidebar";
 import { Product, Category, CartItem, CurrentUser, BarStation } from "./types";
 
+export const runtime = 'edge';
 export const dynamic = "force-dynamic";
 
 export default function POSStation() {

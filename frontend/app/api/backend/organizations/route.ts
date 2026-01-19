@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { backendUrl } from "@/utils/constants";
 
+export const runtime = 'edge';
+
 export async function GET(request: NextRequest) {
   try {
     const response = await fetch(`${backendUrl}/api/organizations`, {
