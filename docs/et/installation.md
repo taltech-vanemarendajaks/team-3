@@ -1,17 +1,14 @@
 # Projekti seadistamise juhend
 
-
 ## 📋 Table of Contents
 
-  - [Installerimine, Windows](#installerimine-windows)
-    - [1. Keskkonnamuutujate seadistamine (.env)](#1-keskkonnamuutujate-seadistamine-env)
-    - [2. Google API seadistamine](#2-google-api-seadistamine)
-    - [3. JWT saladuse (Secret) genereerimine](#3-jwt-saladuse-secret-genereerimine)
-    - [4. Rakenduse käivitamine](#4-rakenduse-käivitamine)
+- [Installerimine, Windows](#installerimine-windows)
+  - [1. Keskkonnamuutujate seadistamine (.env)](#1-keskkonnamuutujate-seadistamine-env)
+  - [2. Google API seadistamine](#2-google-api-seadistamine)
+  - [3. JWT saladuse (Secret) genereerimine](#3-jwt-saladuse-secret-genereerimine)
+  - [4. Rakenduse käivitamine](#4-rakenduse-käivitamine)
 
 ---
-
-
 
 ## Installerimine, Windows
 
@@ -19,7 +16,7 @@ Selleks, et projekt tööle saada, tuleb esmalt luua keskkonnamuutujate fail. Te
 
 ### 1. Keskkonnamuutujate seadistamine (.env)
 
-Sinu `.env` fail peaks välja nägema umbes selline:
+Sinu `.env` fail peaks lõpus välja nägema umbes selline, alumised peatükid juhendavad edasi:
 
 ```env
 POSTGRES_DB=vanemarendaja_db
@@ -42,48 +39,92 @@ JWT_SECRET={Sinu genereeritud JWT secret}
 
 `GOOGLE_CLIENT_ID` ja `GOOGLE_CLIENT_SECRET` hankimiseks järgi neid juhiseid:
 
-- **ID hankimine:** [Google Developer Console](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#get_your_google_api_client_id)
-- **Auth Platform:** Kui lood uue, vali **External**, mitte Internal.
-- **Seadistamine:** Kui Client ID on loodud, kliki selle peale ja täida järgmised väljad:
-  - **Authorized JavaScript origins:**
-    - `http://localhost`
-    - `http://localhost:3000` (või oma port, kui see on erinev)
-  - **Authorized redirect URIs:**
-    - `http://localhost:8080/login/oauth2/code/google`
-- **Secret:** `GOOGLE_CLIENT_SECRET` asub samas kohas, kus Client ID.
+Ava [Google Auth Platvorm > Clients](https://console.cloud.google.com/auth/clients)
 
----
+Esimene kord klikka seal GET STARTED
+
+**"(1) App information"**
+
+- App name = borsibaar
+- email = sinu email
+- NEXT
+
+**"(2) audience"**
+
+- Vali radiobutton external
+- NEXT
+
+**"(3) Contact information"**
+
+- Enda email pane uuesti
+- NEXT
+
+**"(4) I AGREE"**
+
+- Pane linnuke ja "Continue"
+- Siis klikka "CREATE" ja oota 10 sek.
+
+Hetkel on Sul vasakul menüüs **"Overview"** - selle asemel vali **"Clients"** ja klikka **"+ Create Client"**
+
+- **Application type** all võta esimene "Web application"
+- **Name** = Börsibaar
+- **Authorized JavaScript origins:**
+  - `http://localhost`
+  - `http://localhost:3000`
+- **Authorized redirect URIs:**
+  - `http://localhost:8080/login/oauth2/code/google`
+- kliki **"Create"**
+- Viskab lahti uue lehe, sealt kopeerimise
+  - Client ID (N: 1086996599762-ahv3vpops0qr047obu0h9td14e48morj.apps.googleusercontent.com)
+  - Client secret (N: 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)
+- vajuta **OK**, sulge
 
 ### 3. JWT saladuse (Secret) genereerimine
 
-`JWT_SECRET` jaoks on sul vaja Node.js-i. Jooksuta see käsk oma terminalis ja kopeeri väljund `.env` faili:
+Kui pole veel NodeJS installeeritud, siis [Lae alla](https://nodejs.org/en/download).
+
+Jooksuta alumine käsk oma terminalis ja kopeeri väljund `.env` faili:
 
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ```
 
+Vastus (N: WPAi6OYn2VxFhWkwSsYuJIQphtx/GBu6FZP617XgMic=) kopeeri enda .env faili
+
 ---
 
 ### 4. Rakenduse käivitamine
 
-1.  **Backend & Database:** Kui `.env` on valmis, pane Docker Engine tööle (nt Docker Desktop). Projekti juurkataloogis käivita:
+1. **Backend & Database:**
 
-    ```bash
-    docker compose up
-    ```
+Kui `.env` on valmis, pane Docker Engine tööle (laadi alla nt [Docker Desktop](https://www.docker.com/products/docker-desktop/) ja AMD64, ca 500MB).
+
+Ava terminal, projekti juurkataloogis käivita (võib võtta minuteid):
+
+```bash
+docker compose up
+```
+
+Antud käsk tekitab Su Docker Engine sisse uue konteineri (näed seda ja CPU aktiivust).
 
 2.  **Frontend:** Kui Docker on püsti, mine `frontend` kataloogi ja paigalda vajalikud paketid:
 
-    ```bash
-    npm i
-    ```
+Eelmine terminal jäta dockeriga jooksma (näed backend logisi) ja tee uus terminal:
+
+```bash
+npm i
+```
 
 3.  **Käivitamine:** Käivita frontend rakendus:
-    ```bash
-    npm run dev
-    ```
 
-Kui kõik sujus, kuvatakse konsoolis teade:
-`Local: http://localhost:3000`
+```bash
+npm run dev
+```
 
-Hoia peal **CTRL** ja tee hiirega **vasakklikk** sellel lingil, et avada frontend brauseris.
+Kui ütleb READY, saad tööle aadressilt "http://localhost:3000"
+
+Ava, sulle tuleb "Login with GOOGLE"
+
+Vali TalTech ja pane linnuke, Sinu kasutaja tekitatakse administraatoriks ja saad ringi brausida vasakult: Inventory jne.
+
+Hurraa!
