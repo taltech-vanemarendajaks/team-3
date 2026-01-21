@@ -2,10 +2,10 @@ Our team name is: tiim-3
 
 Our team members are:
 
-Anton Sokolov - Github: sapsan14
-Artjom Melnikov - Github: videomat
-Henri Raagmets - Github: H3nr1R
-Tauri Laane - Github: taurilaane
+Anton Sokolov - Github: sapsan14\
+Artjom Melnikov - Github: videomat\
+Henri Raagmets - Github: H3nr1R\
+Tauri Laane - Github: taurilaane\
 Tormi Laane - Github: tormipoiss
 
 Right now we think that we will be switching roles often,
