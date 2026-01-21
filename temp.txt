@@ -1,0 +1,1970 @@
+commit 26f56c727894dc12babe540f6feaf3cfa57c5415
+Author: Anton Sokolov <sapsan14@users.noreply.github.com>
+Date:   Mon Jan 19 18:48:13 2026 +0200
+
+    docs: organize documentation by language and add TOC (#29)
+    
+    - Create docs/ folder structure with en/, et/, ru/ subdirectories
+    - Move all .md files (except README.md) to appropriate language folders
+    - Add Table of Contents (TOC) to all documentation files
+    - Add TOC to README.md with links to all documentation files
+    - Create missing translations:
+      - docs/en/description.md (English business logic description)
+      - docs/en/improve.md (English technical debt analysis)
+      - docs/en/installation.md (English installation guide)
+      - docs/ru/installation.md (Russian installation guide)
+    
+    All documentation is now organized by language and includes navigation TOC for easier access.
+
+commit 93768a96fbc0687cc746cb81218ce4e84f40c527
+Author: Anton Sokolov <sapsan14@users.noreply.github.com>
+Date:   Mon Jan 19 18:10:46 2026 +0200
+
+    docs: add comprehensive Swagger/OpenAPI documentation (#28)
+    
+    - Add SpringDoc OpenAPI 2.7.0 dependency for API documentation
+    - Create OpenApiConfig with JWT authentication scheme configuration
+    - Update SecurityConfig to allow public access to Swagger UI endpoints
+    - Add @Schema annotations to controller record classes for better documentation
+    - Add @Hidden annotations to exception handlers to exclude from API docs
+    - Configure SpringDoc properties in application.properties
+    - Fix CORS configuration to properly parse multiple origins from string
+    - Add http://localhost:8080 to allowed CORS origins for Swagger UI
+    - Add comprehensive SWAGGER.md documentation guide with:
+      * Setup instructions
+      * Authentication guide with JWT token extraction methods
+      * JWT_SECRET explanation and usage
+      * CORS troubleshooting section
+      * Complete usage examples
+    - Update README.md with Swagger usage instructions
+    
+    Swagger UI is now available at http://localhost:8080/swagger-ui/index.html
+    OpenAPI JSON available at http://localhost:8080/v3/api-docs
+
+commit dbe61fcf5b024818c382858835d0220ffdd4ca87
+Author: Anton Sokolov <sapsan14@users.noreply.github.com>
+Date:   Mon Jan 19 17:42:46 2026 +0200
+
+    Sync/dev main (#27)
+    
+    * Add Swagger/OpenAPI documentation support
+    
+    - Add SpringDoc OpenAPI 2.7.0 dependency for API documentation
+    - Create OpenApiConfig with JWT authentication scheme configuration
+    - Update SecurityConfig to allow public access to Swagger UI endpoints
+    - Add @Schema annotations to controller record classes for better documentation
+    - Add @Hidden annotations to exception handlers to exclude from API docs
+    - Configure SpringDoc properties in application.properties
+    - Add comprehensive SWAGGER.md documentation guide
+    - Update README.md with Swagger usage instructions
+    
+    Swagger UI is now available at http://localhost:8080/swagger-ui/index.html
+    OpenAPI JSON available at http://localhost:8080/v3/api-docs
+    
+    * Fix CORS configuration and add JWT_SECRET documentation
+    
+    - Fix CORS configuration to properly parse multiple origins from string
+    - Add http://localhost:8080 to allowed CORS origins for Swagger UI
+    - Add comprehensive JWT_SECRET explanation to SWAGGER.md
+    - Update README.md with JWT token authentication instructions
+    - Improve CORS error handling and documentation
+    
+    Changes:
+    - SecurityConfig: Parse comma-separated origins string explicitly
+    - application.properties: Add localhost:8080 to CORS allowed origins
+    - SWAGGER.md: Add 'Understanding JWT_SECRET' section explaining token signing/verification
+    - README.md: Add note about JWT token requirements for Swagger UI
+
+commit bdeef70a72d8786a4e0f887f8b3d37efb0903697
+Author: Anton Sokolov <sapsan14@users.noreply.github.com>
+Date:   Mon Jan 19 17:32:13 2026 +0200
+
+    Swagger support (#26)
+    
+    * Add Swagger/OpenAPI documentation support
+    
+    - Add SpringDoc OpenAPI 2.7.0 dependency for API documentation
+    - Create OpenApiConfig with JWT authentication scheme configuration
+    - Update SecurityConfig to allow public access to Swagger UI endpoints
+    - Add @Schema annotations to controller record classes for better documentation
+    - Add @Hidden annotations to exception handlers to exclude from API docs
+    - Configure SpringDoc properties in application.properties
+    - Add comprehensive SWAGGER.md documentation guide
+    - Update README.md with Swagger usage instructions
+    
+    Swagger UI is now available at http://localhost:8080/swagger-ui/index.html
+    OpenAPI JSON available at http://localhost:8080/v3/api-docs
+    
+    * Fix CORS configuration and add JWT_SECRET documentation
+    
+    - Fix CORS configuration to properly parse multiple origins from string
+    - Add http://localhost:8080 to allowed CORS origins for Swagger UI
+    - Add comprehensive JWT_SECRET explanation to SWAGGER.md
+    - Update README.md with JWT token authentication instructions
+    - Improve CORS error handling and documentation
+    
+    Changes:
+    - SecurityConfig: Parse comma-separated origins string explicitly
+    - application.properties: Add localhost:8080 to CORS allowed origins
+    - SWAGGER.md: Add 'Understanding JWT_SECRET' section explaining token signing/verification
+    - README.md: Add note about JWT token requirements for Swagger UI
+
+commit 01928b833bab9e1425a8264aad1e7320a2c1e111
+Merge: 1d01911 a9a1178
+Author: Anton Sokolov <sapsan14@users.noreply.github.com>
+Date:   Mon Jan 19 13:44:52 2026 +0200
+
+    Merge pull request #24 from taltech-vanemarendajaks/dev
+    
+    Merge pull request #23 from taltech-vanemarendajaks/main
+
+commit a9a1178f86a323160806f15b936b6ff0f4b0e729
+Merge: 2d63cc6 1d01911
+Author: Anton Sokolov <sapsan14@users.noreply.github.com>
+Date:   Mon Jan 19 13:43:53 2026 +0200
+
+    Merge pull request #23 from taltech-vanemarendajaks/main
+    
+    Sync dev with main after moving repo from Entangled-Systems
+
+commit 1d019116cc0edb0c6ad836f17c9e7b86169cb770
+Merge: eaa5b2e a2db0f3
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Fri Jan 16 16:43:11 2026 +0200
+
+    Merge pull request #11 from Entangled-Systems/issue-3-cloudflare-deploy
+    
+    feat: Configure frontend for Cloudflare Pages deployment
+
+commit eaa5b2ef6b62e2e61082323697ff6493d8fb88fa
+Merge: 9f16658 33c4114
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Fri Jan 16 16:39:50 2026 +0200
+
+    Merge pull request #10 from Entangled-Systems/flyio-new-files
+    
+    Fly.io Launch config files
+
+commit a2db0f3364b84a6c5bcca38bad1ad87f6c8c754a
+Author: Anton Sokolov <sokolovmeister@gmail.com>
+Date:   Fri Jan 16 16:37:14 2026 +0200
+
+    docs: add free tier hosting deployment guide
+    
+    - Added comprehensive guide for free tier hosting deployment
+    - Includes setup instructions and configuration details
+
+commit 1a9e70b3c718d2037f0f5f07c34234b89b7d07d2
+Author: Anton Sokolov <sokolovmeister@gmail.com>
+Date:   Fri Jan 16 16:25:34 2026 +0200
+
+    docs: add Cloudflare Pages deployment guide (EN/ET/RU)
+    
+    - Added comprehensive deployment guide with step-by-step instructions
+    - Added troubleshooting section for common issues
+    - Added code changes summary
+    - Created English, Estonian, and Russian versions
+    - Includes OAuth configuration, compatibility flags setup
+    - Complete deployment checklist and useful links
+
+commit 01e2aea75c3c09464ed7b34702a36d181a86467f
+Author: Anton Sokolov <sokolovmeister@gmail.com>
+Date:   Fri Jan 16 15:32:02 2026 +0200
+
+    feat: configure frontend for Cloudflare Pages deployment
+    
+    - Add @cloudflare/next-on-pages package and pages:build script
+    - Remove output: 'standalone' from next.config.ts
+    - Add .npmrc with legacy-peer-deps=true for compatibility
+    - Add export const runtime = 'edge' to all API routes (22 files)
+    - Add export const runtime = 'edge' to /login and /pos/[stationId] pages
+    - All routes now configured for Edge Runtime on Cloudflare Pages
+
+commit 33c41141d0fb751252db98607b0fbbb20e0e57fa
+Author: Fly.io <noreply@fly.io>
+Date:   Fri Jan 16 00:28:41 2026 +0000
+
+    New files from Fly.io Launch
+
+commit 9f16658ba4109f179d0be8bb9c9266461b5926dd
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Fri Jan 16 02:28:07 2026 +0200
+
+    Rename app in fly.toml configuration
+
+commit 9d7a207cffa053c9ce4eea1dd0d7f7814f7c4829
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Fri Jan 16 02:07:30 2026 +0200
+
+    Modify fly.toml for app configuration and env variables
+    
+    Updated app name and primary region in fly.toml. Added environment variables for server address and port.
+
+commit 364d88651fcf05fc612ab14bd0abf1b0996f32b1
+Merge: 9d97780 7bfd7cd
+Author: fly-io[bot] <52462049+fly-io[bot]@users.noreply.github.com>
+Date:   Thu Jan 15 23:51:39 2026 +0000
+
+    Merge pull request #9 from Entangled-Systems/flyio-new-files
+    
+    Fly.io Launch config files
+
+commit 7bfd7cd69f4464d0fda0dcbc57ff13b55dfdc206
+Author: Fly.io <noreply@fly.io>
+Date:   Thu Jan 15 23:48:56 2026 +0000
+
+    New files from Fly.io Launch
+
+commit 2d63cc6a07986a0d0b719a2132800755f0447a27
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Thu Jan 15 23:58:33 2026 +0200
+
+    Add Russian translation for IMPROVE.md
+
+commit 2a1f136de5f4821363df0112469b7eefb02e1f44
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Thu Jan 15 23:57:54 2026 +0200
+
+    Rename DESCRIPTION.md to DESCRIPTION.ru.md
+
+commit 9d97780af43fab15cfa3a5bb218f011b2971ff06
+Merge: 730b482 0ea8a4c
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Thu Jan 15 23:45:28 2026 +0200
+
+    Merge pull request #8 from Entangled-Systems/dev
+    
+    Merge pull request #7 from Entangled-Systems/main
+
+commit 0ea8a4c783673f10aed6d8264265c5b120467043
+Merge: b2f3935 730b482
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Thu Jan 15 23:34:37 2026 +0200
+
+    Merge pull request #7 from Entangled-Systems/main
+    
+    Merge pull request #6 from Entangled-Systems/dev
+
+commit 730b4827bf9c71fe6f1f8ae19d7d0265abf78210
+Merge: 9f2f5da b2f3935
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Thu Jan 15 23:33:27 2026 +0200
+
+    Merge pull request #6 from Entangled-Systems/dev
+    
+    Dev
+
+commit b2f39357c637db4e12824aecc3c5cb302c431b03
+Merge: 214eca0 9f2f5da
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Thu Jan 15 23:32:09 2026 +0200
+
+    Merge pull request #5 from Entangled-Systems/main
+    
+    Sync with main
+
+commit 9f2f5da666a0101428f820d66ccfca58dc85e2e4
+Merge: 9c762a5 7030522
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Thu Jan 15 23:22:17 2026 +0200
+
+    Merge pull request #4 from Entangled-Systems/issue-1-fix-backend-logging
+    
+    Fix multi-site deploy
+
+commit 7030522e6a487577b8344174594c84e6e157d2f7
+Author: Anton Sokolov <sokolovmeister@gmail.com>
+Date:   Thu Jan 15 22:50:38 2026 +0200
+
+    refactor: enhance logging in controllers and jobs
+    
+    - Add Lombok's @Slf4j annotation to InventoryController, OrganizationController, and PriceCorrectionJob for improved logging.
+    - Replace System.out.println statements with log.debug and log.info for better log management and consistency.
+    - This change enhances the observability of stock addition, organization updates, and price correction job execution.
+
+commit 214eca0a65f1c9e388384eec611a8c6066536a72
+Author: taurilaane <77326208+taurilaane@users.noreply.github.com>
+Date:   Thu Jan 15 21:33:24 2026 +0200
+
+    Create README-install.md
+
+commit db283699f87258749ab7ed2d7fe59c2001ef1c63
+Author: taurilaane <77326208+taurilaane@users.noreply.github.com>
+Date:   Thu Jan 15 21:25:03 2026 +0200
+
+    Update README.md
+    
+    Removed the weird headline
+
+commit cef63a11cc5c8271f2c8b1ebb14e6e1f4bea734c
+Author: Anton Sokolov <sokolovmeister@gmail.com>
+Date:   Thu Jan 15 20:31:29 2026 +0200
+
+    fix: use frontend callback route for OAuth token handling
+    
+    - Change backend to redirect to frontend callback route with token in URL
+    - Add /api/auth/callback route to set JWT cookie for Vercel domain
+    - Fix cross-domain cookie issue by setting cookie on frontend domain
+    - Update middleware to skip API routes
+    - Token is passed via URL parameter (temporary solution for cross-domain)
+
+commit b5674aa5c4b13ff99d90d9d58547fbc989db3605
+Author: Anton Sokolov <sokolovmeister@gmail.com>
+Date:   Thu Jan 15 20:23:03 2026 +0200
+
+    fix: use NEXT_PUBLIC_BACKEND_URL for Vercel deployment
+    
+    - Update middleware to use NEXT_PUBLIC_BACKEND_URL on Vercel
+    - Update getCurrentUser to fallback to NEXT_PUBLIC_BACKEND_URL
+    - Fixes OAuth redirect issue by ensuring correct backend URL is used
+    - Supports both Docker (BACKEND_URL) and Vercel (NEXT_PUBLIC_BACKEND_URL) deployments
+
+commit a6ba84651f054fbfcc2557e21ee42ff57845e6c0
+Merge: beb994d 3ead6fc
+Author: Anton Sokolov <sokolovmeister@gmail.com>
+Date:   Thu Jan 15 19:25:03 2026 +0200
+
+    Merge branch 'main' of github.com:sapsan14/vanemarendaja-borsibaar
+
+commit beb994d54b0aabe19308d7569b0da0aa4334386f
+Author: Anton Sokolov <sokolovmeister@gmail.com>
+Date:   Thu Jan 15 19:24:56 2026 +0200
+
+    refactor: update AuthController to use ResponseCookie for JWT handling
+    
+    - Replace `Cookie` with `ResponseCookie` for setting JWT cookies to support cross-domain scenarios (SameSite=None).
+    - Update cookie handling in both login success and logout methods to ensure proper security and compatibility with Vercel and Render deployments.
+
+commit 3ead6fc8fc431a51de80fdfa3221f99bd6f5e0c6
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Thu Jan 15 18:53:23 2026 +0200
+
+    Update backendUrl to use NEXT_PUBLIC_BACKEND_URL
+
+commit 56949fc4c3d0479ea98cfe64960fff27376c0cad
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Thu Jan 15 18:01:35 2026 +0200
+
+    Add debug and logging settings to application properties
+    
+    Added debug and logging configuration for application.
+
+commit c4b09e01e70ec309b13588ca9a60a14404a96556
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Thu Jan 15 16:44:57 2026 +0200
+
+    Update Dockerfile to use JAVA_OPTS in ENTRYPOINT
+
+commit 6a51b32ed8254d36672ec123d037543005a13b94
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Thu Jan 15 16:43:29 2026 +0200
+
+    Add JAVA_OPTS to environment configuration
+
+commit abe59a0e498789e7103559cb5a1f4458e7f43d44
+Author: sapsan14 <sapsan14@users.noreply.github.com>
+Date:   Thu Jan 15 16:15:35 2026 +0200
+
+    Refactor Dockerfile for multi-stage build
+
+commit e981cbd15b39d129fce7989405129df316369df3
+Author: Anton Sokolov <sokolovmeister@gmail.com>
+Date:   Thu Jan 15 16:09:49 2026 +0200
+
+    Add Fly.io deployment configuration for backend service
+    
+    - Add `backend/fly.toml` with initial Fly.io config for backend deployment
+    - Update `application.properties` with relevant settings for Fly.io environment
+    - Add `.dockerignore` for optimizing Docker image build
+
+commit edc01135d647aad2a4c3635e9ea2dc29bdff0068
+Author: Anton Sokolov <sokolovmeister@gmail.com>
+Date:   Wed Jan 14 13:06:38 2026 +0200
+
+    chore: expand gitignore and update docs
+    
+    - broaden root .gitignore to cover common env, build, log, and IDE artifacts
+    - replace single description.txt with localized DESCRIPTION/IMPROVE markdown docs
+
+commit bc72fed97177122fc10cc6859097a42cad411a52
+Author: Anton Sokolov <sokolovmeister@gmail.com>
+Date:   Tue Jan 13 15:11:56 2026 +0200
+
+    feat: add project business logic description (description.txt)
+    
+    Added initial project business logic and main domain entities description in description.txt. This file outlines the multi-tenant architecture, main domain concepts (Organization, User, Category, Product, Inventory, InventoryTransaction, BarStation), and summarizes key business processes. This will guide business rule implementation and onboarding for contributors.
+
+commit 9c762a53ce3a8bd155f30bbe34df7343a6093991
+Author: Ago Luberg <ago.luberg@taltech.ee>
+Date:   Tue Jan 13 12:53:35 2026 +0200
+
+    remove link to broken website
+
+commit 9a8ff1f5a5d3ea9b6fa9a9e599ad734388fed528
+Author: metxdev <kristofermetusala@gmail.com>
+Date:   Fri Dec 12 00:59:23 2025 +0200
+
+    Update docker-image.yml
+
+commit f77f50aba9a990a5babe9409f8e072576fc0c9b3
+Author: metxdev <kristofermetusala@gmail.com>
+Date:   Fri Dec 12 00:42:22 2025 +0200
+
+    Update docker-image.yml
+
+commit f5ffccccc3e2214120babffa9b781b630b0dae76
+Author: metxdev <kristofermetusala@gmail.com>
+Date:   Thu Dec 11 23:12:52 2025 +0200
+
+    Update docker-compose.prod.yaml
+
+commit fa08bcda2b568f006ca8de05de9f8c0afe330eae
+Author: metxdev <kristofermetusala@gmail.com>
+Date:   Thu Dec 11 23:05:09 2025 +0200
+
+    Update docker-image.yml
+
+commit dc6786ffd16975ee0421addde596ff63eca4e8e1
+Author: metxdev <kristofermetusala@gmail.com>
+Date:   Thu Dec 11 23:00:11 2025 +0200
+
+    Update docker-image.yml
+
+commit 3eb2e332d17e9c737cc5eecae5b8bed64b06f4b4
+Author: metxdev <kristofermetusala@gmail.com>
+Date:   Thu Dec 11 22:49:40 2025 +0200
+
+    Create docker-image.yml
+
+commit 5459d962ef8eabb706d91bf5fe47e8cbc2b90f1c
+Author: metudev <krmetu@taletch.ee>
+Date:   Thu Dec 11 21:49:58 2025 +0200
+
+    ui changes for 1080p
+
+commit c082a2c2d17529c467e72ae0c60e09e743e8c9b2
+Author: metudev <krmetu@taletch.ee>
+Date:   Tue Dec 9 00:15:46 2025 +0200
+
+    org price change
+
+commit 2a475bef9c8d33bbf71d6ff081d4025580a207b2
+Merge: 9e06325 7c7dcc2
+Author: Fred <frkuiv@taltech.ee>
+Date:   Sat Dec 6 21:05:37 2025 +0000
+
+    Merge branch '36-explicit-update-react-dom' into 'main'
+    
+    Resolve "Explicit update react-dom"
+    
+    Closes #36
+    
+    See merge request areini/iti0302-2025-projekt!28
+
+commit 7c7dcc25b6c7cbdd2d7f1eacea53591cc36095aa
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Dec 6 23:05:16 2025 +0200
+
+    Explicit update react-dom
+
+commit 9e06325420ef3814e9ae5e922fe12ccb13389db7
+Merge: a2b7e84 d034105
+Author: Fred <frkuiv@taltech.ee>
+Date:   Sat Dec 6 20:17:09 2025 +0000
+
+    Merge branch '35-update-critical-next' into 'main'
+    
+    Resolve "Update critical next"
+    
+    Closes #35
+    
+    See merge request areini/iti0302-2025-projekt!27
+
+commit d03410585d1e65a597d4ded5c63d7b193f6d66c5
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Dec 6 22:16:45 2025 +0200
+
+    Update next specifically
+
+commit d18a30906dc53abc850fe10daac5a207cf3406f9
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Dec 6 22:15:47 2025 +0200
+
+    Update npm packages
+
+commit a2b7e84fb2f27dc69ceef5d3b55efca177d617c2
+Merge: 54d0a2a 1cf0116
+Author: Fred <frkuiv@taltech.ee>
+Date:   Sun Nov 23 17:31:30 2025 +0000
+
+    Merge branch '34-fix-pipeline-error' into 'main'
+    
+    Resolve "fix pipeline error"
+    
+    Closes #34
+    
+    See merge request areini/iti0302-2025-projekt!25
+
+commit 54d0a2a9547c67ee76c35edfac25fd28ab1cfdb0
+Merge: 2d3c071 f324fba
+Author: Fred <frkuiv@taltech.ee>
+Date:   Sun Nov 23 17:14:35 2025 +0000
+
+    Merge branch '33-update-readme' into 'main'
+    
+    Resolve "update README"
+    
+    Closes #33
+    
+    See merge request areini/iti0302-2025-projekt!26
+
+commit f324fba47fb0ba631b7f4bed264d818acb4cb01f
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 23 15:25:04 2025 +0200
+
+    update README.md
+
+commit 1664911a9d09a69ce9c8b76efcd13cfd841ef96e
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 23 14:50:26 2025 +0200
+
+    update README.md
+
+commit 1cf011692a3edb10996bf40a77d300125d1e882b
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 23 13:42:46 2025 +0200
+
+    remove explicit 'any' type declaration
+
+commit 38729bef3f6de3a5e3e9228a1dcc66b16721d858
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 23 13:42:01 2025 +0200
+
+    replace regular img tags with optimized nextjs Image tags
+
+commit f760b0c59ddf766eeacce5d92cb48538c8bbe40b
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 23 13:37:25 2025 +0200
+
+    remove unnecessary 'any' type declarations
+
+commit 982afe1f0c651b5c976992d72ee715ee20801f53
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 23 13:36:17 2025 +0200
+
+    comment out unused variables
+
+commit 2d3c071efe58370553c02fb379b54ae238c28ff3
+Merge: 7b54553 f5135af
+Author: krmetu <krmetu@taltech.ee>
+Date:   Sun Nov 23 10:43:20 2025 +0000
+
+    Merge branch '32-add-dynamic-price-step-adjustment-to-admin-dashboard' into 'main'
+    
+    Resolve "add dynamic price step adjustment to admin dashboard"
+    
+    Closes #32
+    
+    See merge request areini/iti0302-2025-projekt!24
+
+commit 7b54553353e3e6e35e445a2085ea4e73edcdca16
+Author: metudev <krmetu@taletch.ee>
+Date:   Sat Nov 22 21:14:47 2025 +0200
+
+    Mark first user as admin, enforce dynamic pricing for category
+
+commit dbb48d1c4e4b313dde167695a12eec3e88d5287e
+Author: metudev <krmetu@taletch.ee>
+Date:   Sat Nov 22 21:10:05 2025 +0200
+
+    code cleanup
+
+commit f5135af65da0caf1a1ee1eceab875aa926849429
+Author: TFT <artoreinik@gmail.com>
+Date:   Thu Nov 20 21:19:30 2025 +0200
+
+    add a new test for the new endpoint and fix old tests
+
+commit 99aba90e01d7b27779d97577a3bb59b64e3dc91c
+Author: TFT <artoreinik@gmail.com>
+Date:   Thu Nov 20 21:19:16 2025 +0200
+
+    add UI for the price increase and decrease
+
+commit 60969ce092622ccb37aa4e7e9c91bec441b097da
+Author: TFT <artoreinik@gmail.com>
+Date:   Thu Nov 20 21:18:50 2025 +0200
+
+    add security rule for new endpoint
+
+commit 5575c29a7e278bb8821126b16b1ec74d1deb45c2
+Author: TFT <artoreinik@gmail.com>
+Date:   Thu Nov 20 21:18:27 2025 +0200
+
+    add price increase and decrease step to entity, controller, DTOs and service
+
+commit 80ca10863c47712521f6bb37783c1723ac4801b0
+Author: TFT <artoreinik@gmail.com>
+Date:   Thu Nov 20 21:07:32 2025 +0200
+
+    add price increase and decrease step columns to organizations table
+
+commit 40d02a8d7c465dab0a6df278b6030a3528223ede
+Merge: dd549c2 5ea6ac9
+Author: krmetu <krmetu@taltech.ee>
+Date:   Tue Nov 18 18:26:29 2025 +0000
+
+    Merge branch '30-add-java-endpoint-tests' into 'main'
+    
+    Resolve "Add Java endpoint tests"
+    
+    Closes #30
+    
+    See merge request areini/iti0302-2025-projekt!20
+
+commit 5ea6ac9775d89a39d238226a7972a9b232dc9ebe
+Author: TFT <artoreinik@gmail.com>
+Date:   Tue Nov 18 20:22:59 2025 +0200
+
+    add more tests to BarStationServiceTest, InventoryControllerTest and InventoryServiceTest to improve coverage
+
+commit 428d750e796c609c1cc614342250bd3ef416f8ba
+Author: TFT <artoreinik@gmail.com>
+Date:   Tue Nov 18 20:13:27 2025 +0200
+
+    add application.properties for tests
+
+commit c92d5883db1510f986e5b87c66b6c26194acc389
+Author: TFT <artoreinik@gmail.com>
+Date:   Tue Nov 18 20:05:27 2025 +0200
+
+    fix adjustStock_Success_CreatesTransaction
+
+commit 80bcd2f3405363112aa230ff650075afa23e7a93
+Author: TFT <artoreinik@gmail.com>
+Date:   Tue Nov 18 19:50:36 2025 +0200
+
+    format BarStationControllerTest better
+
+commit 0e2a04d32a376a120a82e6c8ce35acd5e4f92935
+Author: TFT <artoreinik@gmail.com>
+Date:   Tue Nov 18 19:49:05 2025 +0200
+
+    mock google auth to fix test
+
+commit 4eb8b7cd5c741d5c1e6fa1c77ad61810c867aa61
+Author: TFT <artoreinik@gmail.com>
+Date:   Tue Nov 18 19:30:24 2025 +0200
+
+    fix tests, add ClientRegistrationRepository
+
+commit dd549c2b1e18440c6234d739ea3efe69fc1ac434
+Merge: 337ddda 5716b55
+Author: krmetu <krmetu@taltech.ee>
+Date:   Tue Nov 18 17:28:31 2025 +0000
+
+    Merge branch '24-ui-fixes' into 'main'
+    
+    Resolve "UI fixes"
+    
+    Closes #24
+    
+    See merge request areini/iti0302-2025-projekt!23
+
+commit 5b010bde430f48d68098c318dce544db8fc9a426
+Author: TFT <artoreinik@gmail.com>
+Date:   Tue Nov 18 18:46:53 2025 +0200
+
+    fix tests, remove unused test file
+
+commit 5716b5582864d11dda16b429132455af8a7820b6
+Author: TFT <artoreinik@gmail.com>
+Date:   Tue Nov 18 16:21:51 2025 +0200
+
+    make the client view take full width
+
+commit 17d8c56984c53d2a6626ea09d51d6b4eb3916583
+Author: TFT <artoreinik@gmail.com>
+Date:   Tue Nov 18 16:16:51 2025 +0200
+
+    fix page title and description
+
+commit 209eed217d9f8b36992291a861035ec3469d4b41
+Author: TFT <artoreinik@gmail.com>
+Date:   Tue Nov 18 16:10:30 2025 +0200
+
+    remove unused dashboard and POS links
+
+commit 765316dd2262126b62ee32f3e9ba88c83249336b
+Author: TFT <artoreinik@gmail.com>
+Date:   Tue Nov 18 16:05:34 2025 +0200
+
+    wrap row buttons
+
+commit 9a64276af76b7a5d476d6c04e97479facd282b9e
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Nov 18 12:59:48 2025 +0200
+
+    make logout icon the same size as other icons
+
+commit 0e4ad09707cd36741e37dd70dbce4a33d1987ab8
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Nov 18 11:30:35 2025 +0200
+
+    add sidebar trigger back
+
+commit 5b12d6b987df99c686aaf852008e3b9ffafb2424
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Nov 18 11:22:27 2025 +0200
+
+    adjust paddings
+
+commit ec58ff1f79fa9d37ab0f670e6c6737e1feec910d
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Nov 18 11:17:57 2025 +0200
+
+    adjust paddings
+
+commit 579289b77f1763a401a55ec146e0ebd4af2bcc2d
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Nov 18 11:13:25 2025 +0200
+
+    add borders to POS components and make POS station page take full width of the screen
+
+commit 8fcf715d51e5f9fa3d12c4b1186e635766abf55b
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Nov 18 11:09:54 2025 +0200
+
+    add borders and other misc css fixes
+
+commit 01b3fc8d4eb9db328002357d838f2133193e3635
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Nov 18 10:58:07 2025 +0200
+
+    remove unnecessary SidebarInset
+
+commit b7a29fb5d7ea2fa2ef2f0a73a4d472ffc2946441
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Nov 18 10:50:47 2025 +0200
+
+    remove unnecessary paddings from pages
+
+commit 76a83aaa6ff54b40fb4b4cbc2d090427b364b265
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Nov 18 10:40:25 2025 +0200
+
+    show full sidebar on main POS page, keep it hidden for station pages
+
+commit 337ddda17917f35c3e8a9430dc02e2343ded49d3
+Author: metudev <krmetu@taletch.ee>
+Date:   Mon Nov 17 20:12:42 2025 +0200
+
+    Mark first user as admin, enforce dynamic pricing for category
+
+commit 93695ebc14dcb33c933e0471db2351fc8f76eda3
+Merge: aa4b559 b06d745
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 21:42:30 2025 +0000
+
+    Merge branch '22-create-a-pipeline-for-the-server' into 'main'
+    
+    Resolve "create a pipeline for the server"
+    
+    Closes #22
+    
+    See merge request areini/iti0302-2025-projekt!22
+
+commit b06d745d55ea6c8077d513b2b01d60d8a87a7fe7
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 23:35:33 2025 +0200
+
+    remove this branch from pipeline trigger
+
+commit d26286673c0b21f05c9248597edb6729e808de91
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 23:21:09 2025 +0200
+
+    Add back backend url
+
+commit 91df6001d5a7a05ccbe3851899f887cae7e32c21
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 23:14:38 2025 +0200
+
+    Proper redirecting via NextJs rather than directly to backend
+
+commit d411ee3440656d9369661b846e9dad7bed3c7b8a
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 23:03:06 2025 +0200
+
+    Route traffic through frontend container, better error handling
+
+commit 67a25c313d46fec29054a346a35b0ec1f0659e85
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 22:44:30 2025 +0200
+
+    Comment out cert copyign to get pipeline running
+
+commit ad166c90df04f617a4d865ed4e8e949cd4106cb7
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 22:43:16 2025 +0200
+
+    Update root url to redirect to dashboard
+
+commit b3a65e23654f7bd3cc7cc9840683cc855d1248b4
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 22:31:39 2025 +0200
+
+    Add certs properly to the nginx container
+
+commit f18fb98946333518a0f0f7d454fe61ba6952e20b
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 22:12:55 2025 +0200
+
+    NGINX in docker compose
+
+commit 9327711387746965529da605d80e3ccdafe8a713
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 21:31:40 2025 +0200
+
+    add tests base
+
+commit 77b3f603bf9608a12814d376f3b5402b2dfea428
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 21:09:37 2025 +0200
+
+    Use separate backend URL for NextJS frontend OAuth
+
+commit 9278f699e2aec759cc97802ec58f29e9393e815a
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 20:58:19 2025 +0200
+
+    Use docker network backend url
+
+commit bbb974fe96ab2e63cf20ac2d8da7e0f04fde4787
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 17:20:34 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit 1d745940b8b62e0b815cd0b0875432181b93e0ea
+Merge: b35eae8 7ec54ff
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 19:12:44 2025 +0200
+
+    Merge remote-tracking branch 'origin/22-create-a-pipeline-for-the-server' into 22-create-a-pipeline-for-the-server
+
+commit b35eae885d1b6cae66d15a04fd36badc8ecb1fc6
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 19:11:47 2025 +0200
+
+    add prod application properties
+
+commit 7ec54ffb3163250139e50ea43668b694579e7549
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 16:53:32 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit cc3629ef0a89cf1db0eb9af5522d5884ae546cfa
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 16:47:02 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit 7cc6dd1aa3e28d5774ac4b533f2d3d976f3d50b4
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 18:46:55 2025 +0200
+
+    containerize frontend
+
+commit 4379ecf4b961e10664dfb1cc28a9a9f6a2454168
+Merge: a976bc9 c18993a
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 18:38:06 2025 +0200
+
+    Merge remote-tracking branch 'origin/22-create-a-pipeline-for-the-server' into 22-create-a-pipeline-for-the-server
+
+commit a976bc9a257952367c39b2333118ae31665663e5
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 18:37:50 2025 +0200
+
+    containerize frontend
+
+commit c18993a534c8007f8dae1bbf2f29e523a229cd88
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 16:32:27 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit d3d18302f775c96ed9103e7bf64ce5db8eedc7f2
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 16:30:33 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit f9cbc598f8050f2e04f1572205c129f8cd6a7e3d
+Merge: 4b87416 edd9bd4
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 18:28:18 2025 +0200
+
+    Merge remote-tracking branch 'origin/22-create-a-pipeline-for-the-server' into 22-create-a-pipeline-for-the-server
+
+commit 4b87416fe04e70a8d10f1b25f3a15fb2f9fd76d2
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 18:28:03 2025 +0200
+
+    containerize frontend
+
+commit edd9bd494919901bd7877a02d8c9e2dd630550a2
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 16:22:25 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit 158c0b72ef9d144981d50faa1f6f5e0dbed3b60c
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 16:19:03 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit 358e7520259c81689c06b694d8d9d075743b667c
+Merge: f09f312 ca0f0ab
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 18:04:53 2025 +0200
+
+    Merge remote-tracking branch 'origin/22-create-a-pipeline-for-the-server' into 22-create-a-pipeline-for-the-server
+
+commit f09f312de372f08e1f11feb53f0ca7d7d1d4ef49
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 18:04:36 2025 +0200
+
+    update backedn dockerfile
+
+commit ca0f0abb54eb9cc133e8e963c269ebef9f497088
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 16:00:08 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit 9b59b0074ed8e21c67e487d554a128584892dbfb
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 15:48:13 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit b0f9a9d7aa313a2a415d4e7944141df864fe5d30
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 15:41:54 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit 7464e8695941e3b0a169ca5304283c96a4d376d2
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 15:40:45 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit 2a30ac4faf643d4b3f700f768a4d6196a2f2042e
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 15:39:20 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit c92292dee82e6ded73e939f34a56a3f542ce631b
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 15:38:27 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit 6cae4cabc524b8e8d281ac31fdab7f9bb24d89fd
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 15:37:24 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit aa4b559c09568971af3e7c8d0ae9223ca0255b15
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 15:32:34 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit e157354900b92329d8f14a3533a8248eed0aac38
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 17:30:40 2025 +0200
+
+    add prod docker-compose
+
+commit 55e60d7897fb5718a3ba001fa47a42bacab42315
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 15:21:02 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit b029ed2ca72144e18ecb03b9d0e466102a30f1e2
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 15:17:45 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit 17a70e1b964134142656a97cfd4e679bde1507a0
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 15:12:45 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit a78223b187485b141d2e3c9170cb636e7a757e2c
+Merge: 4eaa9ef d75e09c
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 14:59:03 2025 +0000
+
+    Merge branch '31-fix-frontend-build-errors' into 'main'
+    
+    Resolve "fix frontend build errors"
+    
+    Closes #31
+    
+    See merge request areini/iti0302-2025-projekt!21
+
+commit d75e09c9a6fd113f70dc59c53f9ff193bb916829
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 16:37:05 2025 +0200
+
+    add ignore ts build errors (fix typing and give up)
+
+commit 4eaa9efb6a95884884ec637cbe98f77726315389
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 13:19:03 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit bf7af40a3516e09b45051eb57546a9dd1f284679
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 12:48:22 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+commit 0154182858522c0dcde71bf000e3ace127f5d582
+Merge: 9ada064 cd34e51
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 13:33:55 2025 +0200
+
+    Merge branch 'main' into 30-add-java-endpoint-tests
+
+commit cd34e51378c2655b21fb56242306b7f19fde580c
+Merge: 9daf4c8 a847618
+Author: Fred <frkuiv@taltech.ee>
+Date:   Sun Nov 16 11:33:40 2025 +0000
+
+    Merge branch '25-implement-deleting-items' into 'main'
+    
+    Resolve "implement deleting items"
+    
+    Closes #25
+    
+    See merge request areini/iti0302-2025-projekt!19
+
+commit a8476181223609639c184fbf8024f96919e83744
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 13:25:45 2025 +0200
+
+    remove inactive products from being included in queries
+
+commit c7d8c77809c9bece8c7a1acf918578fa161ccbb6
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Nov 16 13:13:36 2025 +0200
+
+    add the ability to delete products in the frontend
+
+commit 9ada064141f9d80b21053b382187552136897b07
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 13:04:45 2025 +0200
+
+    BarControllerTest
+
+commit 9daf4c8858632412ac04d8e94448bf3f0bb94750
+Merge: 109dca6 68fad13
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 09:29:00 2025 +0000
+
+    Merge branch '27-fred-changes-nov-15' into 'main'
+    
+    Resolve "Fred changes nov 15"
+    
+    Closes #27
+    
+    See merge request areini/iti0302-2025-projekt!15
+
+commit 68fad138a981415a6310301d19ba2a6df17d17cf
+Merge: 89b719f dbaf6d0
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Nov 16 09:28:37 2025 +0000
+
+    Merge branch '30-add-java-endpoint-tests' into '27-fred-changes-nov-15'
+    
+    Resolve "Add Java endpoint tests"
+    
+    See merge request areini/iti0302-2025-projekt!18
+
+commit dbaf6d003843cb4e848519460f90e36c12bc1887
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 11:10:06 2025 +0200
+
+    JWT tests
+
+commit b184e6ecf7dada981a60ad69d7944e77b8088d7a
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 11:02:21 2025 +0200
+
+    Small line change
+
+commit 12df6057fc69b128474e75d6416ce13f72092f73
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 11:01:18 2025 +0200
+
+    ProductController tests
+
+commit 3929d12fce9960c372e4e68f934b053a7e3b374c
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 10:52:39 2025 +0200
+
+    Simnple usercontroller test
+
+commit 89b719f685cf5b4f7bf7c2b016ab0787cd204385
+Merge: dbc1eaf 37436b7
+Author: Fred <frkuiv@taltech.ee>
+Date:   Sun Nov 16 00:29:41 2025 +0000
+
+    Merge branch '29-pos-ui-fixes-for-tablet-view' into '27-fred-changes-nov-15'
+    
+    Resolve "POS UI fixes for tablet view"
+    
+    See merge request areini/iti0302-2025-projekt!17
+
+commit 37436b70eb81d504c3174d48e5f9d950180086a5
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 02:29:10 2025 +0200
+
+    better button placements
+
+commit ea839ba72c9e8c6ee162e05ea20b85e8b9d62386
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 02:25:54 2025 +0200
+
+    Smaller cart items
+
+commit 76eb905b5d35bcbec373dc32c5b561e8b47449f5
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 02:23:19 2025 +0200
+
+    Completely hide the sidebar related thigns on POS stationId page
+
+commit d6137caf41fd03d08dbaa749b4c976a03bd70375
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 02:20:33 2025 +0200
+
+    Bigger cart buttons
+
+commit 0bec9558df7e30f1c3494d0a6ce17f5d6bc81fb4
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 02:19:39 2025 +0200
+
+    Clickable mobile cart floater
+
+commit 02a42b5e4308a6e06f3d6efaf2d3ccb36bd0065f
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 02:17:45 2025 +0200
+
+    better cart elements experience
+
+commit a9cad6dd356bfdab40b06be59ca232d3d059d800
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 02:08:49 2025 +0200
+
+    better cart view on smaller screen
+
+commit 670821fcc1853652be1469b49ed613f416da496b
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 02:06:03 2025 +0200
+
+    More dynamic POS products page
+
+commit 333d4cca52f18d8d2dd362a73d70d3ad8c3dc78c
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 02:01:44 2025 +0200
+
+    Smallsidebar fixes
+
+commit 84ce037ccd4231107065148fa97e908504612f15
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 01:48:46 2025 +0200
+
+    Sidebar more dynamic with open button on mobile screens
+
+commit 2dfcf921fccb8d3f175b80d130278bffd121aa0b
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 01:46:13 2025 +0200
+
+    Make stations page more responsive for tablets
+
+commit 8ee568f91adf5cb0e9094377bd63f8a777660295
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 01:40:34 2025 +0200
+
+    Refacotr pos ID page to be more readable as well
+
+commit d075232fe1e0a05fa7af8bdc400b07cba38b046b
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 01:38:38 2025 +0200
+
+    Refactor POS page file to be more readable
+
+commit dbc1eaf323414e22e9c80befab2d7e6ab393b19d
+Merge: cc7e5f0 10f1df5
+Author: Fred <frkuiv@taltech.ee>
+Date:   Sat Nov 15 23:29:54 2025 +0000
+
+    Merge branch '28-pos-stations' into '27-fred-changes-nov-15'
+    
+    Resolve "POS stations"
+    
+    See merge request areini/iti0302-2025-projekt!16
+
+commit 10f1df5f956a0a7bf2862b06998c4bfe44c1724a
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 01:28:06 2025 +0200
+
+    Show stats per station as well
+
+commit 4bb6a3776ade4c15d92c0b9737d7c9efc9478879
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 01:25:09 2025 +0200
+
+    Add logout button
+
+commit 4ba53e4bfccb334935dc6ba4bc259f01c5291615
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 01:24:54 2025 +0200
+
+    Add stations to leaderboard
+
+commit 4f62d289f6304d968a67d11fb40d787389707d95
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 01:11:39 2025 +0200
+
+    Proper station deletion handling
+
+commit 8c9458ad06954add5b96164d54b3a72eedf9268a
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 01:08:51 2025 +0200
+
+    Make bar user many to many connection work
+
+commit 8ea65027a256c2daa841812fbe31d50d070f33df
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 01:00:06 2025 +0200
+
+    Add user attaching to station creation
+
+commit bd75c39002913feee6bf631b3be7cc7294218667
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 00:48:02 2025 +0200
+
+    Remove token from USerMApper
+
+commit 236528e890608b9b221a2c054f8686120852dd7d
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 00:38:23 2025 +0200
+
+    Add extra comment for reminder
+
+commit 431bd6f9360a0a52fb475875c66341fb9557a0ed
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 00:37:42 2025 +0200
+
+    Get client page working
+
+commit 2e76a06459651547f7eccfa7af3d7e224ae3c6d6
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 00:22:01 2025 +0200
+
+    Update controllers to use new SecurityUtils for checking user
+
+commit a84b80acfc354325a15fdd41c23f06c097ee85ea
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Nov 16 00:20:56 2025 +0200
+
+    Create JWT auth filter with util to get current user
+
+commit dee2c8d29b0c613ed56bb99d830cb511646af835
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 23:31:31 2025 +0200
+
+    Add users fetching in the frontend
+
+commit 9b36eef3cb03e02e4f31e621e9b8c25690372655
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 23:31:08 2025 +0200
+
+    Create UserController to centralize user auth and fethcing
+
+commit eb41956325f2e330258c65db5e7fb2c28fcc8e35
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 23:20:24 2025 +0200
+
+    Display stations in frontend
+
+commit a4c6eb7f3cae2cfeb287187592b98d069114c0a3
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 23:20:10 2025 +0200
+
+    Nextjs endpoints for interacting with stations
+
+commit 2d9ff7962d4592066f372d6d1099bd62dd2dcf6e
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 23:17:24 2025 +0200
+
+    Add station id to transcation
+
+commit cb8529150a026dc27aa11780efbc41e4f321ab28
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 23:16:35 2025 +0200
+
+    Create simpler user DTO mapper for station usage
+
+commit 99cf1cb73b6fc67ce77fa3ae1c9869439732c595
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 23:15:29 2025 +0200
+
+    Create station controller
+
+commit bfb1bae1305563d605d2b0f165d0dc776c3d507f
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 23:14:40 2025 +0200
+
+    Create bar repo and service
+
+commit 315cff8af6e449ecfc0c72e07cfbd3c85cadeaf3
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 23:10:41 2025 +0200
+
+    Add DTOs for stations
+
+commit b810e3a8cbd93c9c4491370fe8192cc93d5145ca
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 23:10:13 2025 +0200
+
+    Init bar station. Add mapper, udpate user to have stations. DB data initialization
+
+commit cc7e5f08d23235616717d74395eaad2e78956df7
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 22:36:47 2025 +0200
+
+    Add basic cursor rules
+
+commit 109dca6349b73de1741416a1fd53d9f83c012018
+Merge: 3a732dd 70c74b2
+Author: Fred <frkuiv@taltech.ee>
+Date:   Sat Nov 15 20:19:31 2025 +0000
+
+    Merge branch '26-backend-file-restructuring' into 'main'
+    
+    Resolve "backend file restructuring"
+    
+    Closes #26
+    
+    See merge request areini/iti0302-2025-projekt!14
+
+commit 70c74b2ccde906c36017824742d1dd5831929af3
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 22:15:04 2025 +0200
+
+    Restructure backend
+
+commit ff50cdff8f3af1bb72b270babb98365e2279c6b7
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 22:13:53 2025 +0200
+
+    Add missing FE component
+
+commit 3a732dd97e0d413c3a12232311c18bb267a50bbc
+Merge: 345e520 1d2cc8d
+Author: Fred <frkuiv@taltech.ee>
+Date:   Sat Nov 15 20:00:37 2025 +0000
+
+    Merge branch '5-sidebar' into 'main'
+    
+    Resolve "sidebar"
+    
+    Closes #5
+    
+    See merge request areini/iti0302-2025-projekt!13
+
+commit 345e5208c83939164b483bd3666e5f5b98bcf8dc
+Merge: d10dcd0 680c5fa
+Author: Fred <frkuiv@taltech.ee>
+Date:   Sat Nov 15 19:59:58 2025 +0000
+
+    Merge branch '21-inventory-system-improvement' into 'main'
+    
+    Resolve "inventory system improvement"
+    
+    Closes #21
+    
+    See merge request areini/iti0302-2025-projekt!12
+
+commit 680c5fa1103a303b25a63a2d2160bbf402fd4fda
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 21:36:53 2025 +0200
+
+    Add min max prices to dummy products
+
+commit 6fbb4114e4a3d9084fcf23977c15aa77cc76f8a3
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sat Nov 15 21:25:13 2025 +0200
+
+    Small linter fixes
+
+commit 1d2cc8d9b98c49dc0b4e23e5c3199a4e572e047a
+Author: TFT <artoreinik@gmail.com>
+Date:   Sat Nov 15 17:51:01 2025 +0200
+
+    switch POS icon and remove unused imports
+
+commit 9c0c8be2dbde5ee23e85b2679c01c8b8f89ecb5d
+Author: TFT <artoreinik@gmail.com>
+Date:   Sat Nov 15 17:50:20 2025 +0200
+
+    add sidebar, restructure files so that sidebar is only in wanted pages
+
+commit ec4da47b0d5424d25a1acf4bd218d8f69c92d548
+Author: TFT <artoreinik@gmail.com>
+Date:   Sat Nov 15 16:56:56 2025 +0200
+
+    update inventory page with category creation modal
+
+commit c2b436aeb31c13eb5a9815ad5366be2d61c0163a
+Author: TFT <artoreinik@gmail.com>
+Date:   Sat Nov 15 16:56:30 2025 +0200
+
+    update README improvement list
+
+commit 19b2668467d3be7cc44b0b83c4ac62fadbdccfad
+Author: TFT <artoreinik@gmail.com>
+Date:   Sat Nov 15 16:56:12 2025 +0200
+
+    finish category controller and service, derive org id from user
+
+commit e4827fe7bf4e2dceae687d4e2e075ed4dffb1958
+Author: TFT <artoreinik@gmail.com>
+Date:   Sat Nov 15 16:55:12 2025 +0200
+
+    add category post function to frontend api handler
+
+commit 8c31e3be42394c85bd2d53e36a9b3a806d2a32b0
+Author: TFT <artoreinik@gmail.com>
+Date:   Sat Nov 15 16:54:28 2025 +0200
+
+    update README improvement list
+
+commit ca363b71cc64f3826634b617eb8e42facf2ddc28
+Author: TFT <artoreinik@gmail.com>
+Date:   Sat Nov 15 16:08:38 2025 +0200
+
+    add prices to inventory table
+
+commit c74d7bd73a463caacc6ad7ec01474462093e28b0
+Author: TFT <artoreinik@gmail.com>
+Date:   Sat Nov 15 16:02:07 2025 +0200
+
+    fix error in setting the form to base state
+
+commit 38e6ca60e6acbeaabc95b9dd9b2bde796d1ec8de
+Author: TFT <artoreinik@gmail.com>
+Date:   Sat Nov 15 16:00:50 2025 +0200
+
+    add min and max price to InventoryResponseDto
+
+commit a53479f542c30705b0282710159cfb406a882991
+Author: TFT <artoreinik@gmail.com>
+Date:   Sat Nov 15 11:45:54 2025 +0200
+
+    add the ability to add min and max price when adding a product to inventory
+
+commit 95dcb8b80a2f5780a5ff8d38f3a68f031279b8c5
+Author: TFT <artoreinik@gmail.com>
+Date:   Sat Nov 15 11:45:19 2025 +0200
+
+    update readme with missing stuff
+
+commit f98036b18c403f952633aa99f843314b9915730b
+Author: TFT <artoreinik@gmail.com>
+Date:   Sat Nov 15 11:44:54 2025 +0200
+
+    add min and max price setting to product endpoint
+
+commit d10dcd0f5f10c66c72da8a357c486dd97f490e10
+Merge: 9f7268f d1fa0c9
+Author: krmetu <krmetu@taltech.ee>
+Date:   Fri Nov 14 17:53:18 2025 +0000
+
+    Merge branch '20-client-view-with-charts' into 'main'
+    
+    Resolve "UI: client view with charts"
+    
+    Closes #20
+    
+    See merge request areini/iti0302-2025-projekt!10
+
+commit d1fa0c934e681408ead7f98c8829fd2b7bf8b8c9
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Tue Nov 11 16:27:39 2025 +0200
+
+    Update settings to get the project running
+
+commit 481ce2592a01192a57b5e771f2dd4fbe8a23e256
+Author: metudev <krmetu@taletch.ee>
+Date:   Mon Nov 10 21:40:11 2025 +0200
+
+    Price changes when selling, auto price reduce job
+
+commit 67099ae074b167554c7b6df75481c6e2e59cedac
+Author: metudev <krmetu@taletch.ee>
+Date:   Sun Nov 9 22:45:45 2025 +0200
+
+    Price changes when selling, auto price reduce job
+
+commit e6a65ba0a062de227ff12cce7baa68fa3dd9b213
+Author: metudev <krmetu@taletch.ee>
+Date:   Sat Nov 8 23:33:26 2025 +0200
+
+    Price changes when selling, auto price reduce job
+
+commit 0f078ef7bb65b2036d234680454b5fe14cf72df8
+Author: metudev <krmetu@taletch.ee>
+Date:   Sat Nov 8 21:57:44 2025 +0200
+
+    Price changes when selling, auto price reduce job
+
+commit 9f7268f87f7d6482011635675d3f5479d968d436
+Author: metudev <krmetu@taletch.ee>
+Date:   Mon Oct 6 00:21:49 2025 +0300
+
+    Add README
+
+commit 73d8388d68751700e07537bd06a8b56ff543b46a
+Author: metudev <krmetu@taletch.ee>
+Date:   Mon Oct 6 00:08:10 2025 +0300
+
+    Add README
+
+commit ec8c83e98f39ef3dd5721c3577e175d17d10abc8
+Merge: 56249b7 26bc483
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Oct 5 17:06:16 2025 +0000
+
+    Merge branch '18-visualize-product-transactions' into 'main'
+    
+    Resolve "Visualize product transactions"
+    
+    Closes #18
+    
+    See merge request areini/iti0302-2025-projekt!8
+
+commit 26bc483607149a389280a838656652e05ac462a0
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Oct 5 19:45:09 2025 +0300
+
+    Create Inventory transactions stats
+
+commit fa5903471e704f4919f6c8a70da9eea14d43561e
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Oct 5 19:44:54 2025 +0300
+
+    Update frontend to fetch organization and stats properly
+
+commit eb7393189998cbe659979208d87359893c3e02a7
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Oct 5 19:26:20 2025 +0300
+
+    Display user in POS and transaciton history
+
+commit 56249b7a95fc618771e61058a86f46d7d5b52422
+Merge: 91f32e8 2df8781
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Sun Oct 5 15:41:47 2025 +0000
+
+    Merge branch '17-initial-pos-setup' into 'main'
+    
+    Resolve "Initial POS setup"
+    
+    Closes #17
+    
+    See merge request areini/iti0302-2025-projekt!6
+
+commit 2df87811d3339b827bb54f470873cbc0844221c9
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Oct 5 18:35:14 2025 +0300
+
+    remove alerting when selling
+
+commit af4de3de0d8cc4cb361b560399081b35ae93d176
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Oct 5 18:27:34 2025 +0300
+
+    Add POS under protected routes
+
+commit 566ee98ed56c4fe3f16af8e40b162094ff9c0742
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Oct 5 18:23:59 2025 +0300
+
+    POS mvp setup
+
+commit 91f32e86b2174a27dcabcae9b616752d6af00f65
+Merge: a3347fd 4146112
+Author: Fred <frkuiv@taltech.ee>
+Date:   Sun Oct 5 14:37:32 2025 +0000
+
+    Merge branch '16-create-initial-inventory-system' into 'main'
+    
+    add inventory system backend and initial frontend
+    
+    Closes #16
+    
+    See merge request areini/iti0302-2025-projekt!7
+
+commit 414611202fbadfa4e21ffd6d52fab040d6b96a18
+Merge: e5c9f7e ffe4895
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Oct 5 17:36:01 2025 +0300
+
+    Merge branch '16-create-initial-inventory-system' of https://gitlab.cs.taltech.ee/areini/iti0302-2025-projekt into 16-create-initial-inventory-system
+
+commit e5c9f7e07a8b8aa909bdf5b2279bafbb5e1235ae
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Oct 5 17:35:32 2025 +0300
+
+    Fix product quantity addition
+
+commit ffe4895d6fe393332edbd7624751b6a1e0b4841c
+Merge: b7c800b 2acd8f2
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Oct 5 17:19:01 2025 +0300
+
+    Merge remote-tracking branch 'origin/16-create-initial-inventory-system' into 16-create-initial-inventory-system
+
+commit b7c800bf83f1332153b82a8920929a7fa2e0710f
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Oct 5 17:18:44 2025 +0300
+
+    fix colors
+
+commit 2acd8f2fca5deaac3f48c2238d63f094a7f522bf
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Oct 5 17:18:08 2025 +0300
+
+    Resolve product addition 500 error
+
+commit 721dd91e164040a05fa2f44e913d4684c97ab49d
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Oct 5 17:12:16 2025 +0300
+
+    update claude comjmand
+
+commit 2aee6ed7c2bf17c3c0c6df5cf8d137fcc656b1cd
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Oct 5 17:10:38 2025 +0300
+
+    Add precondition to seed data
+
+commit da38363bd08971cf05aebf37db9996d3509aea44
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Oct 5 17:03:37 2025 +0300
+
+    Backend claude md file
+
+commit 8d0fa3947138893e075fd5d977aa552ea1e935e3
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Oct 5 17:00:24 2025 +0300
+
+    fix colors and stuff
+
+commit a214bb547b2e3dd88d135f5cd50fa5fa4f1aaa0f
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Oct 5 16:56:56 2025 +0300
+
+    fix product creation logic
+
+commit 391f75c1508af6ba0f371d351ad3f0a808158ad1
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Sun Oct 5 16:48:34 2025 +0300
+
+    Add seed data
+
+commit c167fb532799a6bcc6fd64e447385b5d61e6b735
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Oct 5 16:20:30 2025 +0300
+
+    add shadcn stuff
+
+commit 314935efb6ce236d02394af636b79c00df7508b7
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Oct 5 16:08:20 2025 +0300
+
+    add inventory system backend and initial frontend
+
+commit a3347fd57af821fb339ba079924dbb53bd7d7621
+Merge: 7334701 74666f5
+Author: Fred <frkuiv@taltech.ee>
+Date:   Thu Oct 2 19:23:33 2025 +0000
+
+    Merge branch 'seed-db-with-default-org' into 'main'
+    
+    Seed db with template orgs, UI redirects
+    
+    See merge request areini/iti0302-2025-projekt!4
+
+commit 74666f59bfba01594b9635935c487a10462dd25a
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Thu Oct 2 22:14:34 2025 +0300
+
+    Update redirection logic in FE
+
+commit 775c41b917dadfe299dabec7a0050643114edcce
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Thu Oct 2 21:50:54 2025 +0300
+
+    Create protected and public routes, add middleware to prevent accessing certain routes
+
+commit 2ba2a0808025d819dd46ee90e47a884de6103ec3
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Thu Oct 2 21:26:29 2025 +0300
+
+    Update login page to check for alrady logged in user,init CLAUDE
+
+commit d27c477a4a2eb7ac6107282209775cd01e145c76
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Thu Oct 2 09:12:49 2025 +0300
+
+    revert endpoint permission change
+
+commit 263e5588f27bba4a99e19b57050afb5e189018ee
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Thu Oct 2 09:02:12 2025 +0300
+
+    Seed more orgs, show orgs from backend in onboarding
+
+commit 1d229060959ea36682f9c5ec905b06f2d19fdaf2
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Thu Oct 2 08:48:20 2025 +0300
+
+    Seed default org
+
+commit 7334701bc976bb4f171356a66f9d83ff2e9150e6
+Merge: d8ecfc6 0e482d1
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Thu Oct 2 05:18:57 2025 +0000
+
+    Merge branch '13-add-base-project-structure-for-spring-boot-backend' into 'main'
+    
+    Another one to get it working
+    
+    Closes #13
+    
+    See merge request areini/iti0302-2025-projekt!3
+
+commit 0e482d1375d4f3ab9df1c9865d392531d1cb9890
+Merge: aadbf1d d8ecfc6
+Author: Fred <frkuiv@taltech.ee>
+Date:   Wed Oct 1 20:59:17 2025 +0000
+
+    Merge branch 'main' into '13-add-base-project-structure-for-spring-boot-backend'
+    
+    # Conflicts:
+    #   docker-compose.yaml
+
+commit aadbf1d345fe55a1a0f30f8268f9cd4f6803fa5d
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Wed Oct 1 23:56:29 2025 +0300
+
+    Improve docker-compose
+
+commit 17f9f1b5bce23eb228883ff3610b4041b2c28ec8
+Author: metudev <krmetu@taletch.ee>
+Date:   Wed Oct 1 22:22:13 2025 +0300
+
+    permit oauth
+
+commit d8ecfc6a023733eb653295c6c825b217a83365fd
+Merge: 2a11ca8 4c6d944
+Author: Fred <frkuiv@taltech.ee>
+Date:   Wed Oct 1 16:28:13 2025 +0000
+
+    Merge branch '13-add-base-project-structure-for-spring-boot-backend' into 'main'
+    
+    Add basic Organization, Category, and Product create/get endpoints (temp...
+    
+    Closes #13
+    
+    See merge request areini/iti0302-2025-projekt!2
+
+commit 4c6d944b862e44561c7de5af91ed1f31297ee221
+Author: FKuiv <kuivfred@gmail.com>
+Date:   Wed Oct 1 19:26:50 2025 +0300
+
+    Get the backend running
+
+commit 13d517d8d899baefb1492128ecb7ca0cbde2893a
+Author: metudev <krmetu@taletch.ee>
+Date:   Wed Oct 1 15:57:25 2025 +0300
+
+    we can add products with correct orgId now
+
+commit a3a46c3a8f8e564fe820de5efc4532587464baa9
+Author: metudev <krmetu@taletch.ee>
+Date:   Wed Oct 1 15:55:57 2025 +0300
+
+    the routes should be working now
+
+commit f292ebed93d6fe0b653fd993e9ff1470851c39be
+Author: metudev <krmetu@taletch.ee>
+Date:   Wed Oct 1 03:10:20 2025 +0300
+
+    simple frontend dont kill me its vibecoded for now
+
+commit 522deb90e6e7902aad257faf58fd9bf93a61d6c9
+Author: metudev <krmetu@taletch.ee>
+Date:   Wed Oct 1 03:08:22 2025 +0300
+
+    small changes
+
+commit 3ec963f4230990d56a1bf13677b5f2b367bbbae8
+Author: metudev <krmetu@taletch.ee>
+Date:   Wed Oct 1 02:28:55 2025 +0300
+
+    added onboarding to set organization to a user
+
+commit fc08b56dcc1412f4e508dbaa4c8b734ef4b20e5c
+Merge: 3e1bc1e 2a11ca8
+Author: metudev <krmetu@taletch.ee>
+Date:   Wed Oct 1 00:26:51 2025 +0300
+
+    changed user for some reason
+
+commit 2a11ca81a9d147ca8718ef857509bd4e74fff65c
+Merge: ac3babf 6628ddf
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Tue Sep 30 07:32:37 2025 +0000
+
+    Merge branch '2-implement-login-registration' into 'main'
+    
+    #2: implement login/registration page
+    
+    See merge request areini/iti0302-2025-projekt!1
+
+commit 6628ddfa0f892fc7f12a6f828fcde37208eb9e3c
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Sep 30 10:20:15 2025 +0300
+
+    create custom resolver for oauth2 so that the user gets the select_account screen every time when logging in
+
+commit d76bb11843b2e6bec888039c18c13aaa01b63806
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Sep 28 19:18:51 2025 +0300
+
+    add login backend with DB stuff
+
+commit 80fadc1928717c4fbef2d57463ebaa9d0cd98a79
+Author: TFT <artoreinik@gmail.com>
+Date:   Sun Sep 28 19:18:00 2025 +0300
+
+    add dashboard and login page
+
+commit 3e1bc1ee8498edb6120ff8ab7384646d11f0f3fd
+Author: metudev <krmetu@taletch.ee>
+Date:   Tue Sep 23 23:29:01 2025 +0300
+
+    Delete/get endpoint for category
+
+commit 8998db130c4ba1abb654a6420b704f1180fc5d1b
+Author: metudev <krmetu@taletch.ee>
+Date:   Tue Sep 23 21:53:37 2025 +0300
+
+    Renamed dtos
+
+commit 28254b5146ec3d595b5f62f89b1161f0961582aa
+Author: metudev <krmetu@taletch.ee>
+Date:   Sun Sep 21 00:39:57 2025 +0300
+
+    Improved API error responses: ProblemDetail handlers, clearer messages. needs more work
+
+commit 79f5dce87a2966c323c9b5e8fed4d7ecff94dffa
+Author: metudev <krmetu@taletch.ee>
+Date:   Sat Sep 20 23:37:08 2025 +0300
+
+    Add basic Organization, Category, and Product create/get endpoints (temp hard-coded organizationId; auth integration pending)
+
+commit 19b6358a315c9370c330a9dad8cffc016ee5ab4b
+Author: metudev <krmetu@taletch.ee>
+Date:   Wed Sep 17 00:55:17 2025 +0300
+
+    initial setup with product and category
+
+commit 21b93b44cafa845a65d819b2cc85e161120014dd
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Sep 16 12:08:24 2025 +0300
+
+    fix google oAuth setup
+
+commit 7d5d58b5ed77720957ce18330b3d37146d65a0f1
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Sep 16 11:42:25 2025 +0300
+
+    add SecurityConfig.java
+
+commit ac3babfa3453ea12b59d5961e7743ea8c2e7009f
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Sep 16 11:28:59 2025 +0300
+
+    setup spring security oauth
+
+commit 22641da96275276880c8cad7d0490f0e323d4512
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Sep 16 10:06:56 2025 +0300
+
+    initialize shadcn
+
+commit 0b528d07b027fc76389bf52004bd74b2ae938963
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Sep 9 17:02:43 2025 +0300
+
+    containerize spring boot
+
+commit 09adcf6a89f12b15b206c253e3479de789c06fbd
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Sep 9 16:21:19 2025 +0300
+
+    add new docker compose file because old one did not work
+
+commit 33540e77c82d2361fc60475c30c73a818d0883a2
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Sep 9 15:37:30 2025 +0300
+
+    add gitignore and sample env for the project root, move the docker ompose file to project root
+
+commit 0c3a056816908711aca597091011ab0f81b81a7c
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Sep 9 15:29:22 2025 +0300
+
+    initialize spring boot project
+
+commit dc632b1d512778579da52434bec190fe90a09b0b
+Author: Arto Reinik <artoreinik@gmail.com>
+Date:   Tue Sep 9 15:11:35 2025 +0300
+
+    initialize nextjs project for the frontend
+
+commit df6c24c2535c0ec17b09474f25abedc7f487bdfb
+Author: Arto Reinik <areini@taltech.ee>
+Date:   Tue Sep 2 12:40:23 2025 +0000
+
+    Initial commit
