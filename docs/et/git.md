@@ -1,68 +1,121 @@
-Kõigepealt kloonida repository local arvutisse ja avada CMD root kaustas.
+# Git-i lühijuhend: Muudatused, konfliktid ja haldus
 
-Siis teha uus branch nii: git switch -c branchiNimi
+See juhend kirjeldab peamisi Git-i töövõtteid alates kloonimisest kuni konfliktide lahendamiseni.
 
-Saad kontrollida mis branchis oled commandiga: git branch
+---
 
-Mine VS code sisse ja tee mingi muudatus (Lisa READNE.md #Börsibaar pealkirja juurde nt: läbu branchist1)
+## 1. Alustamine ja uue haru (branch) loomine
 
-Sellega vaatad, mis muudatused on tehtud: git status (Peaks ütlema punasega, et on muudetud faile mida pole stageitud)
+1.  **Klooni repositoorium** oma arvutisse ja ava terminal (CMD või PowerShell) projekti juurkaustas.
+2.  **Loo uus haru:**
+    ```bash
+    git switch -c branchiNimi
+    ```
+3.  **Kontrolli aktiivset haru:**
+    ```bash
+    git branch
+    ```
 
-Lisa siis kõik failid staging režiimi sellega: git add .
+## 2. Muudatuste tegemine ja committimine
 
-Ning commit sõnumiga: git commit -m "Kirjuta mida muutsid"
+1.  Tee VS Code-is muudatus (näiteks lisa `README.md` faili pealkirja juurde tekst: `#Börsibaar - läbu branchist1`).
+2.  **Vaata muudatuste staatust:**
+    ```bash
+    git status
+    ```
+    *(Muudetud failid peaksid olema punased).*
+3.  **Lisa failid staging-alasse:**
+    ```bash
+    git add .
+    ```
+4.  **Tee commit:**
+    ```bash
+    git commit -m "Kirjuta siia, mida muutsid"
+    ```
 
-Kui commit sõnum läks valesti ja pole veel commit-i pushinud github-i, saab amend-ida sõnumit commandiga: git commit --amend (Asendad ülemise oranži sõnumi sellega mis tahad ja siis vajutad Esc, ning kirjutad :wq ja siis vajuta Enter)
+### Commiti parandamine (amend)
+Kui soovid viimast commit-sõnumit muuta (enne pushimist):
+1.  Kasuta käsku: `git commit --amend`.
+2.  Avaneb tekstiredaktor (Vim). Muuda tekst ära.
+3.  Salvestamiseks ja väljumiseks: vajuta `Esc`, trüki `:wq` ja vajuta `Enter`.
 
-Siis switchi main branchi (sama nagu checkout), tee: git switch main
+---
 
-Tee siis uus branch et luua conflict: git switch -c branchiNimi
+## 3. Konflikti tekitamine ja lahendamine
 
-Mine VS code sisse ja tee mingi muudatus (tee mingi muudatus samas failis kus eelmises branchis, et oleks conflict 2 faili vahel)
+### Konflikti loomine
+1.  Liigu tagasi peaharru: `git switch main`.
+2.  Loo uus haru: `git switch -c teineBranchiNimi`.
+3.  Tee muudatus **samas failis ja samas kohas**, kus eelmises branchis.
+4.  Salvesta ja commiti:
+    ```bash
+    git add .
+    git commit -m "Teine muudatus konflikti jaoks"
+    ```
 
-Siis commit: git add . ja siis: git commit -m "Kirjuta mida muutsid"
+### Mergemine ja konflikti lahendamine
+1.  Proovi harud kokku sulatada (veendu, et oled uues harus):
+    ```bash
+    git merge vanaBranchiNimi
+    ```
+    *Git annab teada: "Automatic merge failed; fix conflicts and then commit the result".*
+2.  Kontrolli staatust: `git status` (näitab faili juures "both modified").
+3.  **Lahenda konflikt valides sobiv versioon:**
+    * Säilita praeguse haru muudatus:
+        ```bash
+        git checkout --ours -- path/to/file
+        ```
+    * Säilita teise haru muudatus:
+        ```bash
+        git checkout --theirs -- path/to/file
+        ```
+4.  Märgi konflikt lahendatuks: `git add path/to/file`.
+5.  Lõpeta merge uue commitiga: `git commit -m "Merge ja konflikti lahendus"`.
 
-Siis merge uus branch vana branchiga, mis sa tekitasid (tee kindlaks et oled praegu uues branchis): git merge vanaBranchiNimiMisTekitasid
+> **Märkus:** Kui merge läks valesti ja soovid seda tühistada:
+> ```bash
+> git reset --merge ORIG_HEAD
+> ```
 
-Nüüd peaks ütlema, et automatic merge failed kuna on mingis failis conflict
+---
 
-Tee: git status (Vaata kus ütleb punasega both modifed, et mis fail on conflictis)
+## 4. Koristustööd (Branchide kustutamine)
 
-Siis conflicti lahendamiseks kas jätad alles praeguse branchi muudatuse:
-git checkout --ours -- path\to\file\that\is\conflicted
-Või teise branchi muudatuse (See branch kus praegu sa pole kui teed command: git branch):
-git checkout --theirs -- path\to\file\that\is\conflicted
+1.  Kustuta lokaalne haru, mida pole enam vaja:
+    ```bash
+    git branch -d branchiNimi
+    ```
+2.  Puhasta failid üleliigsest "läbust".
+3.  Tee lõplik commit:
+    ```bash
+    git add .
+    git commit -m "Puhastasin README.md faili"
+    ```
 
-Ja lisa fail mis tahad alles jätta (paneb, et conflict resolved):
-git add path\to\file\that\is\conflicted
+---
 
-Siis kui enam conflicti pole, lõpeta merge (commit): git commit -m "text"
+## 5. Ülesanne: Manual Update
 
-Kui tuleb välja, et mergisid kokku valed branchid, siis saad merge tagasi võtta kui commit tehtud sellise käsuga: git reset --merge ORIG_HEAD
+Järgi neid samme konkreetse haru uuendamiseks:
 
-Siis kustuta branch ära mis pole kasutusel (lokaalselt), kuna mergisid ära:
-git branch -d branchName
-
-Siis branchis, mis on alles, kustuta ära läbu mis sa tekitasid et teha conflict.
-
-Siis tee commit, näiteks "Puhastasin README.md faili" (Eeldan, et oskad nüüd teha git add ja commit)
-
-Siis võid branchi ära kustutada, mis tekitasid. (Pead selleks liikuma teise branchi sisse)
-
-Teine:
-
-Kõigepealt kloonida repository local arvutisse. Mine mingi kataloogi sisse, kus tahad et repository ilmuks, ava seal kataloogi sees cmd (Shift + right click, vali open in terminal)
-Siis pane command: git clone https://github.com/taltech-vanemarendajaks/team-3
-
-Siis tuleb avada manual update branch nii: git switch manual-update
-
-Siis mine VS code sisse ja loo uus fail docs/et kataloogis: git.md
-
-Ja pane sinna sisse mingi tekst nagu: Läbu tormi poolt
-
-Nüüd tee command: git status (Kontroll, et lisasid git.md faili)
-
-Siis add to staging ja commit fail: git add .
-Ja: git commit -m "Lisasin git.md faili"
-
-Ja pushi siis faili origin github-i: git push origin manual-update
+1.  **Klooni repositoorium:**
+    Ava kaust, kuhu soovid projekti, ja käivita terminal (Shift + paremklikk -> Open in Terminal).
+    ```bash
+    git clone [https://github.com/taltech-vanemarendajaks/team-3](https://github.com/taltech-vanemarendajaks/team-3)
+    ```
+2.  **Liigu õigesse harru:**
+    ```bash
+    git switch manual-update
+    ```
+3.  **Loo uus fail:**
+    Loo fail asukohta `docs/et/git.md` ja lisa sinna tekst (nt "Läbu tormi poolt").
+4.  **Salvesta ja commiti:**
+    ```bash
+    git status
+    git add .
+    git commit -m "Lisasin git.md faili"
+    ```
+5.  **Pushi muudatused GitHubi:**
+    ```bash
+    git push origin manual-update
+    ```
