@@ -1,1 +1,1 @@
-Pane siia oma nimi:
+Pane siia oma nimi: Tormi
