@@ -413,3 +413,297 @@ cd frontend && npm run dev
 - ✅ Default sort applied on page load
 - ✅ Smooth user experience with hover effects
 - ✅ No performance issues
+
+---
+
+## Task: Add Validation to BarStationRequestDto
+
+### Branch
+`task/Add-Validation-to-BarStationRequestDto`
+
+### Description
+This task adds validation annotations to `BarStationRequestDto` to ensure data quality at the API boundary and provide clear error messages for invalid requests.
+
+### Changes Made
+1. **Added validation annotations:**
+   - `name`: `@NotBlank` and `@Size(max = 120)`
+   - `description`: `@Size(max = 500)` (optional field)
+
+### Files Modified
+- `backend/src/main/java/com/borsibaar/dto/BarStationRequestDto.java`
+
+---
+
+## Testing Strategy for BarStationRequestDto Validation
+
+### 1. Build Verification
+
+**Build Test:**
+```bash
+cd backend
+docker compose exec backend ./mvnw clean compile
+```
+- ✅ Should compile without errors
+- ✅ No import errors for validation annotations
+
+### 2. Unit Tests - Controller Level
+
+**Test Validation in BarStationControllerTest:**
+
+1. **Test empty/null name:**
+   ```java
+   BarStationRequestDto request = new BarStationRequestDto(null, "Desc", true, null);
+   // Should return 400 Bad Request
+   ```
+
+2. **Test blank name:**
+   ```java
+   BarStationRequestDto request = new BarStationRequestDto("", "Desc", true, null);
+   // Should return 400 Bad Request
+   ```
+
+3. **Test name exceeding max length:**
+   ```java
+   String longName = "a".repeat(121); // 121 characters
+   BarStationRequestDto request = new BarStationRequestDto(longName, "Desc", true, null);
+   // Should return 400 Bad Request
+   ```
+
+4. **Test description exceeding max length:**
+   ```java
+   String longDesc = "a".repeat(501); // 501 characters
+   BarStationRequestDto request = new BarStationRequestDto("Station", longDesc, true, null);
+   // Should return 400 Bad Request
+   ```
+
+5. **Test valid request:**
+   ```java
+   BarStationRequestDto request = new BarStationRequestDto("Valid Station", "Description", true, null);
+   // Should return 201 Created or 200 OK
+   ```
+
+### 3. Manual API Testing
+
+**Test via Swagger UI or curl:**
+
+1. **Test POST /api/bar-stations with empty name:**
+   ```bash
+   curl -X POST http://localhost:8080/api/bar-stations \
+     -H "Content-Type: application/json" \
+     -H "Cookie: jwt=YOUR_TOKEN" \
+     -d '{"name": "", "description": "Test", "isActive": true}'
+   ```
+   - ✅ Should return 400 Bad Request
+   - ✅ Error message should mention "Station name is required"
+
+2. **Test POST /api/bar-stations with null name:**
+   ```bash
+   curl -X POST http://localhost:8080/api/bar-stations \
+     -H "Content-Type: application/json" \
+     -H "Cookie: jwt=YOUR_TOKEN" \
+     -d '{"description": "Test", "isActive": true}'
+   ```
+   - ✅ Should return 400 Bad Request
+
+3. **Test POST /api/bar-stations with long name:**
+   ```bash
+   curl -X POST http://localhost:8080/api/bar-stations \
+     -H "Content-Type: application/json" \
+     -H "Cookie: jwt=YOUR_TOKEN" \
+     -d '{"name": "VERY_LONG_NAME_...", "description": "Test", "isActive": true}'
+   ```
+   - ✅ Should return 400 Bad Request if name > 120 chars
+   - ✅ Error message should mention max length
+
+4. **Test POST /api/bar-stations with long description:**
+   ```bash
+   curl -X POST http://localhost:8080/api/bar-stations \
+     -H "Content-Type: application/json" \
+     -H "Cookie: jwt=YOUR_TOKEN" \
+     -d '{"name": "Station", "description": "VERY_LONG_DESC...", "isActive": true}'
+   ```
+   - ✅ Should return 400 Bad Request if description > 500 chars
+
+5. **Test POST /api/bar-stations with valid data:**
+   ```bash
+   curl -X POST http://localhost:8080/api/bar-stations \
+     -H "Content-Type: application/json" \
+     -H "Cookie: jwt=YOUR_TOKEN" \
+     -d '{"name": "Valid Station", "description": "Valid description", "isActive": true}'
+   ```
+   - ✅ Should return 201 Created
+   - ✅ Station should be created successfully
+
+6. **Test PUT /api/bar-stations/{id} with invalid data:**
+   - ✅ Same validation rules apply for update endpoint
+   - ✅ Test all invalid scenarios for update
+
+### 4. Error Response Format Testing
+
+**Verify error response structure:**
+1. Make invalid request
+2. ✅ Response status: 400 Bad Request
+3. ✅ Response body contains:
+   ```json
+   {
+     "type": "about:blank",
+     "title": "Validation failed",
+     "status": 400,
+     "detail": "name: Station name is required",
+     "errors": {
+       "name": "Station name is required"
+     },
+     "timestamp": "...",
+     "path": "/api/bar-stations"
+   }
+   ```
+
+### 5. Edge Cases
+
+**Test edge cases:**
+1. **Name exactly at max length (120 chars):**
+   - ✅ Should be accepted
+
+2. **Name one character over max (121 chars):**
+   - ✅ Should be rejected
+
+3. **Description exactly at max length (500 chars):**
+   - ✅ Should be accepted
+
+4. **Description one character over max (501 chars):**
+   - ✅ Should be rejected
+
+5. **Null description:**
+   - ✅ Should be accepted (optional field)
+
+6. **Empty description:**
+   - ✅ Should be accepted (optional field)
+
+7. **Whitespace-only name:**
+   - ✅ Should be rejected (due to @NotBlank)
+
+### 6. Integration with Existing Functionality
+
+**Test that validation doesn't break existing functionality:**
+1. ✅ Existing valid requests still work
+2. ✅ Service layer duplicate name check still works
+3. ✅ User assignment still works
+4. ✅ All existing tests still pass
+
+### 7. Quick Test Checklist
+
+```bash
+# 1. Compile
+cd backend
+docker compose exec backend ./mvnw clean compile
+
+# 2. Run existing tests
+docker compose exec backend ./mvnw test
+
+# 3. Test via Swagger UI
+# Open http://localhost:8080/swagger-ui/index.html
+# Test POST /api/bar-stations with invalid data
+```
+
+### Expected Results
+
+**Before Implementation:**
+- ❌ Empty/null names accepted (causes errors later)
+- ❌ No length validation
+- ❌ Inconsistent with other DTOs
+
+**After Implementation:**
+- ✅ Empty/null names rejected with clear error message
+- ✅ Length validation enforced
+- ✅ Consistent with other DTOs (ProductRequestDto, etc.)
+- ✅ Clear error messages for clients
+- ✅ Invalid data caught at API boundary
+
+### Unit Tests - Are They Necessary?
+
+**Yes, unit tests are necessary and recommended.**
+
+**Why Unit Tests Are Important:**
+1. **Validation happens at controller level** - Tests verify `@Valid` annotation works correctly
+2. **Error response format** - Tests ensure error messages are properly formatted
+3. **Prevent regressions** - Tests catch if validation is accidentally removed or changed
+4. **Documentation** - Tests serve as examples of expected behavior
+
+**Recommended Unit Tests:**
+
+Add to `BarStationControllerTest.java`:
+
+1. **Test empty/null name:**
+   ```java
+   @Test
+   void testCreateStation_WithEmptyName_ReturnsBadRequest() throws Exception {
+       BarStationRequestDto request = new BarStationRequestDto("", "Desc", true, null);
+       
+       mockMvc.perform(post("/api/bar-stations")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(objectMapper.writeValueAsString(request)))
+               .andExpect(status().isBadRequest())
+               .andExpect(jsonPath("$.title").value("Validation failed"))
+               .andExpect(jsonPath("$.errors.name").exists());
+   }
+   ```
+
+2. **Test null name:**
+   ```java
+   @Test
+   void testCreateStation_WithNullName_ReturnsBadRequest() throws Exception {
+       BarStationRequestDto request = new BarStationRequestDto(null, "Desc", true, null);
+       
+       mockMvc.perform(post("/api/bar-stations")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(objectMapper.writeValueAsString(request)))
+               .andExpect(status().isBadRequest());
+   }
+   ```
+
+3. **Test name exceeding max length:**
+   ```java
+   @Test
+   void testCreateStation_WithNameExceedingMaxLength_ReturnsBadRequest() throws Exception {
+       String longName = "a".repeat(121); // 121 characters
+       BarStationRequestDto request = new BarStationRequestDto(longName, "Desc", true, null);
+       
+       mockMvc.perform(post("/api/bar-stations")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(objectMapper.writeValueAsString(request)))
+               .andExpect(status().isBadRequest())
+               .andExpect(jsonPath("$.errors.name").exists());
+   }
+   ```
+
+4. **Test description exceeding max length:**
+   ```java
+   @Test
+   void testCreateStation_WithDescriptionExceedingMaxLength_ReturnsBadRequest() throws Exception {
+       String longDesc = "a".repeat(501); // 501 characters
+       BarStationRequestDto request = new BarStationRequestDto("Station", longDesc, true, null);
+       
+       mockMvc.perform(post("/api/bar-stations")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(objectMapper.writeValueAsString(request)))
+               .andExpect(status().isBadRequest())
+               .andExpect(jsonPath("$.errors.description").exists());
+   }
+   ```
+
+5. **Test valid request still works:**
+   ```java
+   @Test
+   void testCreateStation_WithValidData_ReturnsCreated() throws Exception {
+       BarStationRequestDto request = new BarStationRequestDto("Valid Station", "Description", true, null);
+       // ... existing test setup ...
+       // Should return 201 Created (existing test should still pass)
+   }
+   ```
+
+**Test Coverage:**
+- ✅ Empty/null name validation
+- ✅ Name length validation
+- ✅ Description length validation
+- ✅ Valid requests still work
+- ✅ Error response format is correct
