@@ -28,6 +28,27 @@ interface InventoryTransactionResponseDto {
   createdByEmail?: string;
   createdAt: string;
 }
+
+interface InventoryResponseDto {
+  id: number;
+  organizationId: number;
+  productId: number;
+  productName: string;
+  quantity: number | string;
+  unitPrice: number | string;
+  description: string;
+  basePrice: number | string;
+  minPrice: number | string;
+  maxPrice: number | string;
+  updatedAt: string;
+}
+
+interface CategoryResponseDto {
+  id: number;
+  name: string;
+  dynamicPricing: boolean;
+}
+
 import {
   Select,
   SelectContent,
@@ -49,7 +70,7 @@ import { Button } from "@/components/ui/button";
 export const dynamic = "force-dynamic";
 
 export default function Inventory() {
-  const [inventory, setInventory] = useState([]);
+  const [inventory, setInventory] = useState<InventoryResponseDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -57,7 +78,7 @@ export default function Inventory() {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [showAdjustModal, setShowAdjustModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState<InventoryResponseDto | null>(null);
   const [transactionHistory, setTransactionHistory] = useState<
     InventoryTransactionResponseDto[]
   >([]);
@@ -69,7 +90,7 @@ export default function Inventory() {
   });
   const [showCreateProductModal, setShowCreateProductModal] = useState(false);
   const [showDeleteProductModal, setShowDeleteProductModal] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<CategoryResponseDto[]>([]);
   const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
   const [categoryForm, setCategoryForm] = useState({
     name: "",
@@ -219,7 +240,6 @@ export default function Inventory() {
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-          // @ts-expect-error: types aren't imported currently from backend
           productId: selectedProduct.productId,
           quantity: parseFloat(formData.quantity),
           notes: formData.notes,
@@ -240,13 +260,17 @@ export default function Inventory() {
   };
 
   const handleRemoveStock = async () => {
+    if (!selectedProduct) {
+      alert("No product selected");
+      return;
+    }
+
     try {
       const response = await fetch("/api/backend/inventory/remove", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-          // @ts-expect-error: types aren't imported currently from backend
           productId: selectedProduct.productId,
           quantity: parseFloat(formData.quantity),
           referenceId: formData.referenceId,
@@ -271,13 +295,17 @@ export default function Inventory() {
   };
 
   const handleAdjustStock = async () => {
+    if (!selectedProduct) {
+      alert("No product selected");
+      return;
+    }
+
     try {
       const response = await fetch("/api/backend/inventory/adjust", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-          // @ts-expect-error: types aren't imported currently from backend
           productId: selectedProduct.productId,
           newQuantity: parseFloat(formData.quantity),
           notes: formData.notes,
@@ -365,46 +393,39 @@ export default function Inventory() {
     setLoadingHistory(false);
   };
 
-  // @ts-expect-error: types aren't imported currently from backend
-  const openAddModal = (item) => {
+  const openAddModal = (item: InventoryResponseDto) => {
     setSelectedProduct(item);
     setShowAddModal(true);
   };
 
-  // @ts-expect-error: types aren't imported currently from backend
-  const openDeleteModal = (item) => {
+  const openDeleteModal = (item: InventoryResponseDto) => {
     setSelectedProduct(item);
     setShowDeleteProductModal(true);
   }
 
-  // @ts-expect-error: types aren't imported currently from backend
-  const openRemoveModal = (item) => {
+  const openRemoveModal = (item: InventoryResponseDto) => {
     setSelectedProduct(item);
     setShowRemoveModal(true);
   };
 
-  // @ts-expect-error: types aren't imported currently from backend
-  const openAdjustModal = (item) => {
+  const openAdjustModal = (item: InventoryResponseDto) => {
     setSelectedProduct(item);
     setFormData({ ...formData, quantity: item.quantity.toString() });
     setShowAdjustModal(true);
   };
 
-  // @ts-expect-error: types aren't imported currently from backend
-  const openHistoryModal = async (item) => {
+  const openHistoryModal = async (item: InventoryResponseDto) => {
     setSelectedProduct(item);
     setShowHistoryModal(true);
     await fetchTransactionHistory(item.productId);
   };
 
   const filteredInventory = searchTerm?.trim().length > 0 ? inventory.filter((item) => {
-    // @ts-expect-error: types aren't imported currently from backend
     return item.productName.toLowerCase().includes(searchTerm.toLowerCase())
   }
   ) : inventory;
 
-  // @ts-expect-error: types aren't imported currently from backend
-  const getStockStatus = (quantity) => {
+  const getStockStatus = (quantity: number | string) => {
     const qty = parseFloat(quantity);
     if (qty === 0)
       return { color: "text-red-100", bg: "bg-red-900", label: "Out of Stock" };
@@ -516,7 +537,6 @@ export default function Inventory() {
                   </tr>
                 ) : (
                   filteredInventory.map((item) => {
-                    // @ts-expect-error: types aren't imported currently from backend
                     const status = getStockStatus(item.quantity);
                     return (
                       <tr
