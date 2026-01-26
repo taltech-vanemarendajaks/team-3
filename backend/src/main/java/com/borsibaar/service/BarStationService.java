@@ -4,12 +4,12 @@ import com.borsibaar.dto.BarStationRequestDto;
 import com.borsibaar.dto.BarStationResponseDto;
 import com.borsibaar.entity.BarStation;
 import com.borsibaar.entity.User;
-import com.borsibaar.exception.BadRequestException;
 import com.borsibaar.exception.DuplicateResourceException;
 import com.borsibaar.exception.NotFoundException;
 import com.borsibaar.mapper.BarStationMapper;
 import com.borsibaar.repository.BarStationRepository;
 import com.borsibaar.repository.UserRepository;
+import com.borsibaar.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -117,11 +117,9 @@ public class BarStationService {
     @Transactional(readOnly = true)
     public List<BarStationResponseDto> getUserStations(UUID userId, Long organizationId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+                .orElseThrow(() -> NotFoundException.forEntity("User", userId));
 
-        if (!user.getOrganizationId().equals(organizationId)) {
-            throw new BadRequestException("User does not belong to this organization");
-        }
+        SecurityUtils.requireOrganization(user.getOrganizationId(), organizationId, "User");
 
         List<BarStation> userStations = user.getBarStations().stream().toList();
         return barStationMapper.toResponseDtoList(userStations);
@@ -131,11 +129,9 @@ public class BarStationService {
         Set<User> users = new HashSet<>();
         for (UUID userId : userIds) {
             User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new NotFoundException("User not found: " + userId));
+                    .orElseThrow(() -> NotFoundException.forEntity("User", userId));
 
-            if (!user.getOrganizationId().equals(organizationId)) {
-                throw new BadRequestException("User " + userId + " does not belong to this organization");
-            }
+            SecurityUtils.requireOrganization(user.getOrganizationId(), organizationId, "User");
 
             // Add the station to the user's barStations (owning side)
             user.getBarStations().add(station);

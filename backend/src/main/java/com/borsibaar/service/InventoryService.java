@@ -6,17 +6,19 @@ import com.borsibaar.entity.Inventory;
 import com.borsibaar.entity.InventoryTransaction;
 import com.borsibaar.entity.Product;
 import com.borsibaar.entity.User;
+import com.borsibaar.exception.BadRequestException;
+import com.borsibaar.exception.GoneException;
+import com.borsibaar.exception.NotFoundException;
 import com.borsibaar.mapper.InventoryMapper;
 import com.borsibaar.repository.BarStationRepository;
 import com.borsibaar.repository.InventoryRepository;
 import com.borsibaar.repository.InventoryTransactionRepository;
 import com.borsibaar.repository.ProductRepository;
 import com.borsibaar.repository.UserRepository;
+import com.borsibaar.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -88,15 +90,13 @@ public class InventoryService {
     public InventoryResponseDto getByProductAndOrganization(Long productId, Long organizationId) {
         Inventory inventory = inventoryRepository
                 .findByOrganizationIdAndProductId(organizationId, productId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "No inventory found for this product"));
+                .orElseThrow(() -> NotFoundException.of("No inventory found for this product"));
 
         InventoryResponseDto base = inventoryMapper.toResponse(inventory);
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "No product found"));
+                .orElseThrow(() -> NotFoundException.forEntity("Product", productId));
         if (!product.isActive()) {
-            throw new ResponseStatusException(HttpStatus.GONE, "Product is deleted");
+            throw GoneException.resourceDeleted("Product");
         }
 
         String productName = product.getName();
@@ -170,17 +170,13 @@ public class InventoryService {
 
         Inventory inventory = inventoryRepository
                 .findByOrganizationIdAndProductId(organizationId, request.productId())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "No inventory found for this product"));
+                .orElseThrow(() -> NotFoundException.of("No inventory found for this product"));
 
         BigDecimal oldQuantity = inventory.getQuantity();
         BigDecimal newQuantity = oldQuantity.subtract(request.quantity());
 
         if (newQuantity.compareTo(BigDecimal.ZERO) < 0) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Insufficient stock. Available: " + oldQuantity + ", Requested: "
-                            + request.quantity());
+            throw BadRequestException.of("Insufficient stock. Available: " + oldQuantity + ", Requested: " + request.quantity());
         }
 
         inventory.setQuantity(newQuantity);
@@ -215,8 +211,7 @@ public class InventoryService {
 
         Inventory inventory = inventoryRepository
                 .findByOrganizationIdAndProductId(organizationId, request.productId())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "No inventory found for this product"));
+                .orElseThrow(() -> NotFoundException.of("No inventory found for this product"));
 
         BigDecimal oldQuantity = inventory.getQuantity();
         BigDecimal quantityChange = request.newQuantity().subtract(oldQuantity);
@@ -251,8 +246,7 @@ public class InventoryService {
     public List<InventoryTransactionResponseDto> getTransactionHistory(Long productId, Long organizationId) {
         Inventory inventory = inventoryRepository
                 .findByOrganizationIdAndProductId(organizationId, productId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "No inventory found for this product"));
+                .orElseThrow(() -> NotFoundException.of("No inventory found for this product"));
 
         List<InventoryTransaction> transactions = inventoryTransactionRepository
                 .findByInventoryIdOrderByCreatedAtDesc(inventory.getId());
@@ -441,15 +435,12 @@ public class InventoryService {
     private Product getOrganizationProduct(Long organizationId, Long productId) {
         // Verify product exists and belongs to organization
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Product not found"));
+                .orElseThrow(() -> NotFoundException.forEntity("Product", productId));
 
-        if (!product.getOrganizationId().equals(organizationId)) {
-            throw new ResponseStatusException(
-                    HttpStatus.FORBIDDEN, "Product does not belong to your organization");
-        }
+        SecurityUtils.requireOrganization(product.getOrganizationId(), organizationId, "Product");
+        
         if (!product.isActive()) {
-            throw new ResponseStatusException(HttpStatus.GONE, "Product is deleted");
+            throw GoneException.resourceDeleted("Product");
         }
         return product;
     }

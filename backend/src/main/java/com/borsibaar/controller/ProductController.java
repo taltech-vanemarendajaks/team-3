@@ -2,7 +2,6 @@ package com.borsibaar.controller;
 
 import com.borsibaar.dto.ProductRequestDto;
 import com.borsibaar.dto.ProductResponseDto;
-import com.borsibaar.entity.User;
 import com.borsibaar.service.ProductService;
 import com.borsibaar.util.SecurityUtils;
 import jakarta.validation.Valid;
@@ -20,8 +19,7 @@ public class ProductController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductResponseDto create(@RequestBody @Valid ProductRequestDto request) {
-        User user = SecurityUtils.getCurrentUser();
-        return productService.create(request, user.getOrganizationId());
+        return productService.create(request, SecurityUtils.getCurrentOrganizationId());
     }
 
     @GetMapping("/{id}")
