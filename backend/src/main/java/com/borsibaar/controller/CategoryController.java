@@ -2,7 +2,6 @@ package com.borsibaar.controller;
 
 import com.borsibaar.dto.CategoryRequestDto;
 import com.borsibaar.dto.CategoryResponseDto;
-import com.borsibaar.entity.User;
 import com.borsibaar.service.CategoryService;
 import com.borsibaar.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -20,34 +19,25 @@ public class CategoryController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CategoryResponseDto createCategory(@RequestBody CategoryRequestDto request) {
-        User user = SecurityUtils.getCurrentUser();
-        return categoryService.create(request, user.getOrganizationId());
+        return categoryService.create(request, SecurityUtils.getCurrentOrganizationId());
     }
 
     @GetMapping
     public List<CategoryResponseDto> getAll(@RequestParam(required = false) Long organizationId) {
         // If organizationId is provided, use it (for public access)
         // Otherwise, get from authenticated user
-        Long orgId;
-        if (organizationId != null) {
-            orgId = organizationId;
-        } else {
-            User user = SecurityUtils.getCurrentUser();
-            orgId = user.getOrganizationId();
-        }
+        Long orgId = organizationId != null ? organizationId : SecurityUtils.getCurrentOrganizationId();
         return categoryService.getAllByOrg(orgId);
     }
 
     @GetMapping("/{id}")
     public CategoryResponseDto getById(@PathVariable Long id) {
-        User user = SecurityUtils.getCurrentUser();
-        return categoryService.getByIdAndOrg(id, user.getOrganizationId());
+        return categoryService.getByIdAndOrg(id, SecurityUtils.getCurrentOrganizationId());
     }
 
-    @DeleteMapping({ "/{id}" })
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        User user = SecurityUtils.getCurrentUser();
-        categoryService.deleteReturningDto(id, user.getOrganizationId());
+        categoryService.deleteReturningDto(id, SecurityUtils.getCurrentOrganizationId());
     }
 }

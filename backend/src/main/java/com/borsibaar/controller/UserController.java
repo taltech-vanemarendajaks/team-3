@@ -23,11 +23,9 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserSummaryResponseDto>> getOrganizationUsers() {
-        // Get authenticated user from SecurityContext (set by JwtAuthenticationFilter)
-        User currentUser = SecurityUtils.getCurrentUser();
-        SecurityUtils.requireAdminRole(currentUser);
+        User admin = SecurityUtils.getCurrentAdmin();
 
-        List<UserSummaryResponseDto> users = userRepository.findByOrganizationId(currentUser.getOrganizationId())
+        List<UserSummaryResponseDto> users = userRepository.findByOrganizationId(admin.getOrganizationId())
                 .stream()
                 .map(userMapper::toSummaryDto)
                 .toList();

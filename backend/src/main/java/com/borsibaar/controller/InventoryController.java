@@ -26,20 +26,13 @@ public class InventoryController {
             @RequestParam(required = false) Long organizationId) {
         // If organizationId is provided, use it (for public access)
         // Otherwise, get from authenticated user
-        Long orgId;
-        if (organizationId != null) {
-            orgId = organizationId;
-        } else {
-            User user = SecurityUtils.getCurrentUser();
-            orgId = user.getOrganizationId();
-        }
+        Long orgId = organizationId != null ? organizationId : SecurityUtils.getCurrentOrganizationId();
         return inventoryService.getByOrganization(orgId, categoryId);
     }
 
     @GetMapping("/product/{productId}")
     public InventoryResponseDto getProductInventory(@PathVariable Long productId) {
-        User user = SecurityUtils.getCurrentUser();
-        return inventoryService.getByProductAndOrganization(productId, user.getOrganizationId());
+        return inventoryService.getByProductAndOrganization(productId, SecurityUtils.getCurrentOrganizationId());
     }
 
     @PostMapping("/add")
@@ -47,7 +40,6 @@ public class InventoryController {
     public InventoryResponseDto addStock(@RequestBody @Valid AddStockRequestDto request) {
         User user = SecurityUtils.getCurrentUser();
         log.debug("Adding stock - productId: {}, quantity: {}", request.productId(), request.quantity());
-
         return inventoryService.addStock(request, user.getId(), user.getOrganizationId());
     }
 
@@ -65,19 +57,16 @@ public class InventoryController {
 
     @GetMapping("/product/{productId}/history")
     public List<InventoryTransactionResponseDto> getTransactionHistory(@PathVariable Long productId) {
-        User user = SecurityUtils.getCurrentUser();
-        return inventoryService.getTransactionHistory(productId, user.getOrganizationId());
+        return inventoryService.getTransactionHistory(productId, SecurityUtils.getCurrentOrganizationId());
     }
 
     @GetMapping("/sales-stats")
     public List<UserSalesStatsResponseDto> getUserSalesStats() {
-        User user = SecurityUtils.getCurrentUser();
-        return inventoryService.getUserSalesStats(user.getOrganizationId());
+        return inventoryService.getUserSalesStats(SecurityUtils.getCurrentOrganizationId());
     }
 
     @GetMapping("/station-sales-stats")
     public List<StationSalesStatsResponseDto> getStationSalesStats() {
-        User user = SecurityUtils.getCurrentUser();
-        return inventoryService.getStationSalesStats(user.getOrganizationId());
+        return inventoryService.getStationSalesStats(SecurityUtils.getCurrentOrganizationId());
     }
 }
