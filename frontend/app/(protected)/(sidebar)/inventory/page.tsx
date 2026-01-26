@@ -12,6 +12,8 @@ import {
   User,
   ListPlus,
   Trash,
+  ArrowUp,
+  ArrowDown,
 } from "lucide-react";
 
 interface InventoryTransactionResponseDto {
@@ -74,6 +76,8 @@ export default function Inventory() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortColumn, setSortColumn] = useState<string | null>("productName");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [showAddModal, setShowAddModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [showAdjustModal, setShowAdjustModal] = useState(false);
@@ -425,6 +429,57 @@ export default function Inventory() {
   }
   ) : inventory;
 
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      // Toggle direction if clicking the same column
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      // Set new column and default to ascending
+      setSortColumn(column);
+      setSortDirection("asc");
+    }
+  };
+
+  const sortedInventory = [...filteredInventory].sort((a, b) => {
+    if (!sortColumn) return 0;
+
+    let aValue: string | number;
+    let bValue: string | number;
+
+    switch (sortColumn) {
+      case "productName":
+        aValue = a.productName.toLowerCase();
+        bValue = b.productName.toLowerCase();
+        break;
+      case "basePrice":
+        aValue = parseFloat(String(a.basePrice));
+        bValue = parseFloat(String(b.basePrice));
+        break;
+      case "minPrice":
+        aValue = parseFloat(String(a.minPrice)) || 0;
+        bValue = parseFloat(String(b.minPrice)) || 0;
+        break;
+      case "maxPrice":
+        aValue = parseFloat(String(a.maxPrice)) || 0;
+        bValue = parseFloat(String(b.maxPrice)) || 0;
+        break;
+      case "quantity":
+        aValue = parseFloat(String(a.quantity));
+        bValue = parseFloat(String(b.quantity));
+        break;
+      case "updatedAt":
+        aValue = new Date(a.updatedAt).getTime();
+        bValue = new Date(b.updatedAt).getTime();
+        break;
+      default:
+        return 0;
+    }
+
+    if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
+    if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
+    return 0;
+  });
+
   const getStockStatus = (quantity: number | string) => {
     const qty = parseFloat(String(quantity));
     if (qty === 0)
@@ -502,26 +557,74 @@ export default function Inventory() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-400">
-                  <th className="text-left py-3 px-4 font-semibold text-gray-300">
-                    Product
+                  <th 
+                    className="text-left py-3 px-4 font-semibold text-gray-300 cursor-pointer hover:bg-gray-800 transition-colors select-none"
+                    onClick={() => handleSort("productName")}
+                  >
+                    <div className="flex items-center gap-2">
+                      Product
+                      {sortColumn === "productName" && (
+                        sortDirection === "asc" ? <ArrowUp className="w-4 h-4" /> : <ArrowDown className="w-4 h-4" />
+                      )}
+                    </div>
                   </th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-300">
-                    Current Price
+                  <th 
+                    className="text-left py-3 px-4 font-semibold text-gray-300 cursor-pointer hover:bg-gray-800 transition-colors select-none"
+                    onClick={() => handleSort("basePrice")}
+                  >
+                    <div className="flex items-center gap-2">
+                      Current Price
+                      {sortColumn === "basePrice" && (
+                        sortDirection === "asc" ? <ArrowUp className="w-4 h-4" /> : <ArrowDown className="w-4 h-4" />
+                      )}
+                    </div>
                   </th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-300">
-                    Min Price
+                  <th 
+                    className="text-left py-3 px-4 font-semibold text-gray-300 cursor-pointer hover:bg-gray-800 transition-colors select-none"
+                    onClick={() => handleSort("minPrice")}
+                  >
+                    <div className="flex items-center gap-2">
+                      Min Price
+                      {sortColumn === "minPrice" && (
+                        sortDirection === "asc" ? <ArrowUp className="w-4 h-4" /> : <ArrowDown className="w-4 h-4" />
+                      )}
+                    </div>
                   </th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-300">
-                    Max Price
+                  <th 
+                    className="text-left py-3 px-4 font-semibold text-gray-300 cursor-pointer hover:bg-gray-800 transition-colors select-none"
+                    onClick={() => handleSort("maxPrice")}
+                  >
+                    <div className="flex items-center gap-2">
+                      Max Price
+                      {sortColumn === "maxPrice" && (
+                        sortDirection === "asc" ? <ArrowUp className="w-4 h-4" /> : <ArrowDown className="w-4 h-4" />
+                      )}
+                    </div>
                   </th>
-                  <th className="text-center py-3 px-4 font-semibold text-gray-300">
-                    Quantity
+                  <th 
+                    className="text-center py-3 px-4 font-semibold text-gray-300 cursor-pointer hover:bg-gray-800 transition-colors select-none"
+                    onClick={() => handleSort("quantity")}
+                  >
+                    <div className="flex items-center justify-center gap-2">
+                      Quantity
+                      {sortColumn === "quantity" && (
+                        sortDirection === "asc" ? <ArrowUp className="w-4 h-4" /> : <ArrowDown className="w-4 h-4" />
+                      )}
+                    </div>
                   </th>
                   <th className="text-center py-3 px-4 font-semibold text-gray-300">
                     Status
                   </th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-300">
-                    Last Updated
+                  <th 
+                    className="text-left py-3 px-4 font-semibold text-gray-300 cursor-pointer hover:bg-gray-800 transition-colors select-none"
+                    onClick={() => handleSort("updatedAt")}
+                  >
+                    <div className="flex items-center gap-2">
+                      Last Updated
+                      {sortColumn === "updatedAt" && (
+                        sortDirection === "asc" ? <ArrowUp className="w-4 h-4" /> : <ArrowDown className="w-4 h-4" />
+                      )}
+                    </div>
                   </th>
                   <th className="text-center py-3 px-4 font-semibold text-gray-300">
                     Actions
@@ -529,14 +632,14 @@ export default function Inventory() {
                 </tr>
               </thead>
               <tbody>
-                {filteredInventory.length === 0 ? (
+                {sortedInventory.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="text-center py-8 text-gray-400">
+                    <td colSpan={8} className="text-center py-8 text-gray-400">
                       No inventory items found
                     </td>
                   </tr>
                 ) : (
-                  filteredInventory.map((item) => {
+                  sortedInventory.map((item) => {
                     const status = getStockStatus(item.quantity);
                     return (
                       <tr
