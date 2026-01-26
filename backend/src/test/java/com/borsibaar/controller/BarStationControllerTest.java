@@ -546,4 +546,135 @@ class BarStationControllerTest {
                 Collections.emptyList());
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
+
+    // Validation tests
+
+    @Test
+    void testCreateStation_WithEmptyName_ReturnsBadRequest() throws Exception {
+        // Arrange: Create admin user
+        User adminUser = createMockUser(1L, "ADMIN");
+        setupSecurityContextWithUser(adminUser);
+
+        // Arrange: Create request with empty name
+        BarStationRequestDto request = new BarStationRequestDto("", "Description", true, null);
+
+        // Act & Assert: Should return 400 Bad Request due to validation failure
+        mockMvc.perform(post("/api/bar-stations")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title").value("Validation failed"))
+                .andExpect(jsonPath("$.errors.name").exists());
+
+        // Verify service was NOT called
+        verify(barStationService, never()).createStation(anyLong(), any(BarStationRequestDto.class));
+    }
+
+    @Test
+    void testCreateStation_WithNullName_ReturnsBadRequest() throws Exception {
+        // Arrange: Create admin user
+        User adminUser = createMockUser(1L, "ADMIN");
+        setupSecurityContextWithUser(adminUser);
+
+        // Arrange: Create request with null name
+        BarStationRequestDto request = new BarStationRequestDto(null, "Description", true, null);
+
+        // Act & Assert: Should return 400 Bad Request due to validation failure
+        mockMvc.perform(post("/api/bar-stations")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title").value("Validation failed"))
+                .andExpect(jsonPath("$.errors.name").exists());
+
+        // Verify service was NOT called
+        verify(barStationService, never()).createStation(anyLong(), any(BarStationRequestDto.class));
+    }
+
+    @Test
+    void testCreateStation_WithNameExceedingMaxLength_ReturnsBadRequest() throws Exception {
+        // Arrange: Create admin user
+        User adminUser = createMockUser(1L, "ADMIN");
+        setupSecurityContextWithUser(adminUser);
+
+        // Arrange: Create request with name exceeding 120 characters
+        String longName = "a".repeat(121); // 121 characters
+        BarStationRequestDto request = new BarStationRequestDto(longName, "Description", true, null);
+
+        // Act & Assert: Should return 400 Bad Request due to validation failure
+        mockMvc.perform(post("/api/bar-stations")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title").value("Validation failed"))
+                .andExpect(jsonPath("$.errors.name").exists());
+
+        // Verify service was NOT called
+        verify(barStationService, never()).createStation(anyLong(), any(BarStationRequestDto.class));
+    }
+
+    @Test
+    void testCreateStation_WithDescriptionExceedingMaxLength_ReturnsBadRequest() throws Exception {
+        // Arrange: Create admin user
+        User adminUser = createMockUser(1L, "ADMIN");
+        setupSecurityContextWithUser(adminUser);
+
+        // Arrange: Create request with description exceeding 500 characters
+        String longDesc = "a".repeat(501); // 501 characters
+        BarStationRequestDto request = new BarStationRequestDto("Valid Station", longDesc, true, null);
+
+        // Act & Assert: Should return 400 Bad Request due to validation failure
+        mockMvc.perform(post("/api/bar-stations")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title").value("Validation failed"))
+                .andExpect(jsonPath("$.errors.description").exists());
+
+        // Verify service was NOT called
+        verify(barStationService, never()).createStation(anyLong(), any(BarStationRequestDto.class));
+    }
+
+    @Test
+    void testUpdateStation_WithEmptyName_ReturnsBadRequest() throws Exception {
+        // Arrange: Create admin user
+        User adminUser = createMockUser(1L, "ADMIN");
+        setupSecurityContextWithUser(adminUser);
+
+        // Arrange: Create request with empty name
+        BarStationRequestDto request = new BarStationRequestDto("", "Description", true, null);
+
+        // Act & Assert: Should return 400 Bad Request due to validation failure
+        mockMvc.perform(put("/api/bar-stations/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title").value("Validation failed"))
+                .andExpect(jsonPath("$.errors.name").exists());
+
+        // Verify service was NOT called
+        verify(barStationService, never()).updateStation(anyLong(), anyLong(), any(BarStationRequestDto.class));
+    }
+
+    @Test
+    void testUpdateStation_WithNameExceedingMaxLength_ReturnsBadRequest() throws Exception {
+        // Arrange: Create admin user
+        User adminUser = createMockUser(1L, "ADMIN");
+        setupSecurityContextWithUser(adminUser);
+
+        // Arrange: Create request with name exceeding 120 characters
+        String longName = "a".repeat(121); // 121 characters
+        BarStationRequestDto request = new BarStationRequestDto(longName, "Description", true, null);
+
+        // Act & Assert: Should return 400 Bad Request due to validation failure
+        mockMvc.perform(put("/api/bar-stations/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title").value("Validation failed"))
+                .andExpect(jsonPath("$.errors.name").exists());
+
+        // Verify service was NOT called
+        verify(barStationService, never()).updateStation(anyLong(), anyLong(), any(BarStationRequestDto.class));
+    }
 }
