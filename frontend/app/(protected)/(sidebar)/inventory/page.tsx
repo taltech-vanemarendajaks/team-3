@@ -426,7 +426,7 @@ export default function Inventory() {
   ) : inventory;
 
   const getStockStatus = (quantity: number | string) => {
-    const qty = parseFloat(quantity);
+    const qty = parseFloat(String(quantity));
     if (qty === 0)
       return { color: "text-red-100", bg: "bg-red-900", label: "Out of Stock" };
     if (qty < 10)
@@ -553,22 +553,22 @@ export default function Inventory() {
                         </td>
                         <td className="py-3 px-4 text-center">
                           <span className="text-lg font-semibold text-gray-300">
-                            {parseFloat(item.basePrice).toFixed(2)}€
+                            {parseFloat(String(item.basePrice)).toFixed(2)}€
                           </span>
                         </td>
                         <td className="py-3 px-4 text-center">
                           <span className="text-lg text-gray-300">
-                            {isNaN(parseFloat(item.minPrice)) ? "--" : parseFloat(item.minPrice).toFixed(2)}€
+                            {isNaN(parseFloat(String(item.minPrice))) ? "--" : parseFloat(String(item.minPrice)).toFixed(2)}€
                           </span>
                         </td>
                         <td className="py-3 px-4 text-center">
                           <span className="text-lg text-gray-300">
-                            {isNaN(parseFloat(item.maxPrice)) ? "--" : parseFloat(item.maxPrice).toFixed(2)}€
+                            {isNaN(parseFloat(String(item.maxPrice))) ? "--" : parseFloat(String(item.maxPrice)).toFixed(2)}€
                           </span>
                         </td>
                         <td className="py-3 px-4 text-center">
                           <span className="text-lg font-semibold text-gray-300">
-                            {parseFloat(item.quantity).toFixed(2)}
+                            {parseFloat(String(item.quantity)).toFixed(2)}
                           </span>
                         </td>
                         <td className="py-3 px-4 text-center">
@@ -751,7 +751,7 @@ export default function Inventory() {
                   })
                 }
                 className="w-full px-3 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                rows="3"
+                rows={3}
                 placeholder="Product description (optional)"
               />
             </div>
@@ -841,7 +841,7 @@ export default function Inventory() {
               className="bg-rose-600 hover:bg-rose-700 text-white"
               onClick={() => {
                 const id = selectedProduct?.productId ?? selectedProduct?.id;
-                if (id) handleDeleteProduct(Number(id));
+                if (id) handleDeleteProduct(String(id));
               }}
             >
               Delete
@@ -954,7 +954,7 @@ export default function Inventory() {
                   setFormData({ ...formData, notes: e.target.value })
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                rows="3"
+                rows={3}
                 placeholder="e.g., Weekly restock"
               />
             </div>
@@ -1029,7 +1029,7 @@ export default function Inventory() {
                   setFormData({ ...formData, notes: e.target.value })
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                rows="3"
+                rows={3}
                 placeholder="e.g., Sold to customer"
               />
             </div>
@@ -1090,7 +1090,7 @@ export default function Inventory() {
                   setFormData({ ...formData, notes: e.target.value })
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                rows="3"
+                rows={3}
                 placeholder="e.g., Inventory correction"
               />
             </div>
