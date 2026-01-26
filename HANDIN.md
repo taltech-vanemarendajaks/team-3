@@ -32,3 +32,8 @@ Pane siia enda nimi:
 Siis Tauri kirjutas sinna enda nime ja pushis githubi.\
 Aga kui tormi proovis kirjutada oma nime, tuli conflict, et ei saa githubi pushida.\
 Siis Tormi lahendas conflicti nii, et jättis alles enda nime ja siis pushis.
+
+
+Henri tehtud feature branch. Tegin Develop baasil, sest harjunud nii:
+
+https://github.com/taltech-vanemarendajaks/team-3/pull/46
