@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,6 +30,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
+    @Profile("!test")
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
             CorsConfigurationSource corsConfigurationSource) throws Exception {
         DefaultOAuth2AuthorizationRequestResolver defaultResolver = new DefaultOAuth2AuthorizationRequestResolver(
@@ -113,14 +115,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/test/**").permitAll() // allow test login
-                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            // ... rest of your config
-        return http.build();
+    @Profile("test")
+    public SecurityFilterChain testSecurityFilterChain(HttpSecurity http) throws Exception {
+    return http
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/api/test/**").permitAll()
+            .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+            .anyRequest().permitAll() // or authenticated(), depending on what you want in tests
+        )
+        .build();
     }
 }
