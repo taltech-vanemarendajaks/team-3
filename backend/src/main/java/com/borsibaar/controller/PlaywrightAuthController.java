@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 @RestController
 @RequestMapping("/api/playwright")
 // @Profile("test") // or @ConditionalOnProperty
-public class TestAuthController {
+public class PlaywrightAuthController {
 
   @Value("${PLAYWRIGHT_SECRET:}")
   private String expectedPlaywrightSecret;
@@ -34,7 +34,7 @@ public class TestAuthController {
   private final RoleRepository roleRepository; // optional
   private final JwtService jwtService;
 
-  public TestAuthController(UserRepository userRepository,
+  public PlaywrightAuthController(UserRepository userRepository,
                             RoleRepository roleRepository,
                             JwtService jwtService) {
     this.userRepository = userRepository;
