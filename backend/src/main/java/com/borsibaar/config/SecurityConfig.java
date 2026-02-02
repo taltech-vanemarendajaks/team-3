@@ -67,22 +67,22 @@ public class SecurityConfig {
                 // Use IF_REQUIRED session management (stateless for API, sessions for OAuth2)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(auth -> auth
-                    // Allow OPTIONS for CORS preflight
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    // Allow test login endpoint publicly (protected by secret in controller)
-                    .requestMatchers("/api/test/**").permitAll()
-                    
-                    // Allow Swagger/OpenAPI endpoints
-                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/auth/**", "/oauth2/**").permitAll()
-                    // Public API endpoints
-                    .requestMatchers(HttpMethod.GET, "/api/organizations/**", "/api/categories/**", "/api/inventory/**").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/organizations").permitAll()
-                    
-                    // All other API requests require authentication
-                    .anyRequest().authenticated())
+                        // Allow OPTIONS for CORS preflight
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Allow test login endpoint publicly (protected by secret in controller)
+                        .requestMatchers("/api/test/**").permitAll()
+                        
+                        // Allow Swagger/OpenAPI endpoints
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/auth/**", "/oauth2/**").permitAll()
+                        // Public API endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/organizations/**", "/api/categories/**", "/api/inventory/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/organizations").permitAll()
+                        
+                        // All other API requests require authentication
+                        .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> oauth2
-                    .defaultSuccessUrl("/auth/login/success", true)
-                    .authorizationEndpoint(auth -> auth.authorizationRequestResolver(customResolver)))
+                        .defaultSuccessUrl("/auth/login/success", true)
+                        .authorizationEndpoint(auth -> auth.authorizationRequestResolver(customResolver)))
                 .build();
     }
 
