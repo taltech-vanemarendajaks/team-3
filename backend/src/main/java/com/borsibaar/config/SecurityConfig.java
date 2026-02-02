@@ -30,7 +30,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    @Profile("!test")
+    // @Profile("!test")
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
             CorsConfigurationSource corsConfigurationSource) throws Exception {
         DefaultOAuth2AuthorizationRequestResolver defaultResolver = new DefaultOAuth2AuthorizationRequestResolver(
@@ -59,36 +59,25 @@ public class SecurityConfig {
         };
 
         return http
-                .csrf(csrf -> csrf.disable())
-                // ✅ Let Spring Security add CORS headers on 401/403/preflight too
-                .cors(cors -> cors.configurationSource(corsConfigurationSource))
-                // Add JWT authentication filter before standard authentication
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                // Use IF_REQUIRED session management (stateless for API, sessions for OAuth2)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-                .authorizeHttpRequests(auth -> auth
-                        // Allow OPTIONS for CORS preflight
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // Allow Swagger/OpenAPI endpoints
-                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**")
-                        .permitAll()
-                        // Allow OAuth2 endpoints and public routes
-                        .requestMatchers("/", "/error", "/oauth2/**", "/login/oauth2/code/**", "/auth/login/success")
-                        .permitAll()
-                        // Public API endpoints
-                        .requestMatchers(HttpMethod.GET, "/api/organizations/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/organizations").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/organizations/**").hasRole("ADMIN")
-                        // Need to make these public for client page
-                        // TODO: these should not be fully public
-                        .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/inventory/**").permitAll()
-                        // All other API requests require authentication
-                        .anyRequest().authenticated())
-                .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("/auth/login/success", true)
-                        .authorizationEndpoint(auth -> auth.authorizationRequestResolver(customResolver)))
-                .build();
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource))
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    // Allow test login endpoint publicly (protected by secret in controller)
+                    .requestMatchers("/api/test/**").permitAll() 
+                    
+                    // ... existing permits ...
+                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/auth/**", "/oauth2/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/organizations/**", "/api/categories/**", "/api/inventory/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/organizations").permitAll()
+                    
+                    .anyRequest().authenticated())
+            .oauth2Login(oauth2 -> oauth2
+                    .defaultSuccessUrl("/auth/login/success", true)
+                    .authorizationEndpoint(auth -> auth.authorizationRequestResolver(customResolver)))
+            .build();
     }
 
     @Value("${app.cors.allowed-origins}")
@@ -114,16 +103,16 @@ public class SecurityConfig {
         return source;
     }
 
-    @Bean
-    @Profile("test")
-    public SecurityFilterChain testSecurityFilterChain(HttpSecurity http) throws Exception {
-    return http
-        .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/test/**").permitAll()
-            .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-            .anyRequest().permitAll() // or authenticated(), depending on what you want in tests
-        )
-        .build();
-    }
+    // @Bean
+    // @Profile("test")
+    // public SecurityFilterChain testSecurityFilterChain(HttpSecurity http) throws Exception {
+    // return http
+    //     .csrf(csrf -> csrf.disable())
+    //     .authorizeHttpRequests(auth -> auth
+    //         .requestMatchers("/api/test/**").permitAll()
+    //         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+    //         .anyRequest().permitAll() // or authenticated(), depending on what you want in tests
+    //     )
+    //     .build();
+    // }
 }

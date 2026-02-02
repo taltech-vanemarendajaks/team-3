@@ -20,10 +20,15 @@ import org.springframework.http.HttpStatus;
 
 import java.time.Duration;
 
+import org.springframework.beans.factory.annotation.Value;
+
 @RestController
 @RequestMapping("/api/test")
-@Profile("test") // or @ConditionalOnProperty
+// @Profile("test") // or @ConditionalOnProperty
 public class TestAuthController {
+
+  @Value("${PLAYWRIGHT_SECRET:}")
+  private String expectedPlaywrightSecret;
 
   private final UserRepository userRepository;
   private final RoleRepository roleRepository; // optional
@@ -37,11 +42,24 @@ public class TestAuthController {
     this.jwtService = jwtService;
   }
 
-  public record TestLoginRequest(String email) {}
+  public record TestLoginRequest(String email, String playwrightSecret) {}
 
   @PostMapping("/login")
   public ResponseEntity<Void> login(@RequestBody TestLoginRequest req,
                                     HttpServletResponse response) {
+    if (req.playwrightSecret() == null || req.playwrightSecret().isBlank()) {
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing playwright secret");
+    }
+
+    if (expectedPlaywrightSecret == null || expectedPlaywrightSecret.isBlank()) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Server secret not configured");
+    }
+
+    String provided = req.playwrightSecret().trim();
+
+    if (!expectedPlaywrightSecret.equals(provided)) {
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid playwright secret");
+    }
 
     String email = req.email().toLowerCase().trim();
 
