@@ -30,7 +30,6 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    // @Profile("!test")
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
             CorsConfigurationSource corsConfigurationSource) throws Exception {
         DefaultOAuth2AuthorizationRequestResolver defaultResolver = new DefaultOAuth2AuthorizationRequestResolver(
@@ -73,10 +72,19 @@ public class SecurityConfig {
                         .requestMatchers("/api/test/**").permitAll()
                         
                         // Allow Swagger/OpenAPI endpoints
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/auth/**", "/oauth2/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**")
+                        .permitAll()
+                        // Allow OAuth2 endpoints and public routes
+                        .requestMatchers("/", "/error", "/oauth2/**", "/login/oauth2/code/**", "/auth/login/success")
+                        .permitAll()
                         // Public API endpoints
-                        .requestMatchers(HttpMethod.GET, "/api/organizations/**", "/api/categories/**", "/api/inventory/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/organizations/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/organizations").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/organizations/**").hasRole("ADMIN")
+                        // Need to make these public for client page
+                        // TODO: these should not be fully public
+                        .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/inventory/**").permitAll()
                         
                         // All other API requests require authentication
                         .anyRequest().authenticated())
