@@ -1,0 +1,102 @@
+
+/*
+Endpoint for api/playwright to send login credetials from Playwright, bypassing Google login.
+We have to add PlaywrightSecret in .env and this is compared to the parameter from Playwright.
+
+We also changed SecurityConfig.java to allow Google bypass with PlaywrightSecret.
+*/
+
+package com.borsibaar.controller;
+
+import com.borsibaar.service.JwtService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.annotation.Profile;
+import org.springframework.web.bind.annotation.*;
+
+import com.borsibaar.repository.UserRepository;
+import com.borsibaar.repository.RoleRepository;
+
+import com.borsibaar.entity.User;
+import com.borsibaar.entity.Role;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
+
+import java.time.Duration;
+
+import org.springframework.beans.factory.annotation.Value;
+
+@RestController
+@RequestMapping("/api/playwright")
+// @Profile("test") // or @ConditionalOnProperty
+public class PlaywrightAuthController {
+
+  @Value("${PLAYWRIGHT_SECRET:}")
+  private String expectedPlaywrightSecret;
+
+  private final UserRepository userRepository;
+  private final RoleRepository roleRepository; // optional
+  private final JwtService jwtService;
+
+  public PlaywrightAuthController(UserRepository userRepository,
+                            RoleRepository roleRepository,
+                            JwtService jwtService) {
+    this.userRepository = userRepository;
+    this.roleRepository = roleRepository;
+    this.jwtService = jwtService;
+  }
+
+  public record TestLoginRequest(String email, String playwrightSecret) {}
+
+  @PostMapping("/login")
+  public ResponseEntity<Void> login(@RequestBody TestLoginRequest req,
+                                    HttpServletResponse response) {
+    if (req.playwrightSecret() == null || req.playwrightSecret().isBlank()) {
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing playwright secret");
+    }
+
+    if (expectedPlaywrightSecret == null || expectedPlaywrightSecret.isBlank()) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Server secret not configured");
+    }
+
+    String provided = req.playwrightSecret().trim();
+
+    if (!expectedPlaywrightSecret.equals(provided)) {
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid playwright secret");
+    }
+
+    String email = req.email().toLowerCase().trim();
+
+    User user = userRepository.findByEmail(email)
+      .orElseGet(() -> {
+        User u = new User();
+        u.setEmail(email);
+        u.setName("Test User");
+        u.setOrganizationId(2L);
+
+        // Optional: assign default role
+        Role roleUser = roleRepository.findByName("USER")
+          .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Missing role USER"));
+        u.setRole(roleUser);
+
+        return userRepository.save(u);
+      });
+
+    String jwt = jwtService.generateToken(user.getEmail()); // or generateToken(user.getEmail())
+
+    ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
+      .httpOnly(true)
+      .sameSite("Lax")
+      .path("/")
+      // .secure(true) // when on https
+      .maxAge(Duration.ofHours(1))
+      .build();
+
+    response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+    return ResponseEntity.ok().build();
+  }
+}

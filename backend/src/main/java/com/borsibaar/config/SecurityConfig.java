@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -67,6 +68,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Allow OPTIONS for CORS preflight
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Allow Playwright automated tests login publicly (protected by secret in controller)
+                        .requestMatchers("/api/playwright/**").permitAll()
+                        
                         // Allow Swagger/OpenAPI endpoints
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**")
                         .permitAll()
