@@ -1,3 +1,11 @@
+
+/*
+Endpoint for api/playwright to send login credetials from Playwright, bypassing Google login.
+We have to add PlaywrightSecret in .env and this is compared to the parameter from Playwright.
+
+We also changed SecurityConfig.java to allow Google bypass with PlaywrightSecret.
+*/
+
 package com.borsibaar.controller;
 
 import com.borsibaar.service.JwtService;
