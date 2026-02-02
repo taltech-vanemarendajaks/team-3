@@ -23,7 +23,7 @@ import java.time.Duration;
 import org.springframework.beans.factory.annotation.Value;
 
 @RestController
-@RequestMapping("/api/test")
+@RequestMapping("/api/playwright")
 // @Profile("test") // or @ConditionalOnProperty
 public class TestAuthController {
 
