@@ -68,8 +68,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Allow OPTIONS for CORS preflight
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // Allow test login endpoint publicly (protected by secret in controller)
-                        .requestMatchers("/api/test/**").permitAll()
+                        // Allow Playwright automated tests login publicly (protected by secret in controller)
+                        .requestMatchers("/api/playwright-login/**").permitAll()
                         
                         // Allow Swagger/OpenAPI endpoints
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**")
