@@ -82,7 +82,11 @@ export default function OnboardingPage() {
 
       router.replace("/dashboard");
     } catch (e) {
-      setError(e?.message ?? "Failed to save");
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError("Failed to save");
+      }
     } finally {
       setSaving(false);
     }

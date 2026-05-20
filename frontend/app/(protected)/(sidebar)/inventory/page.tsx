@@ -28,6 +28,27 @@ interface InventoryTransactionResponseDto {
   createdByEmail?: string;
   createdAt: string;
 }
+
+interface InventoryResponseDto {
+  id: number;
+  organizationId: number;
+  productId: number;
+  productName: string;
+  quantity: number | string;
+  unitPrice: number | string;
+  description: string;
+  basePrice: number | string;
+  minPrice: number | string;
+  maxPrice: number | string;
+  updatedAt: string;
+}
+
+interface CategoryResponseDto {
+  id: number;
+  name: string;
+  dynamicPricing: boolean;
+}
+
 import {
   Select,
   SelectContent,
@@ -49,7 +70,7 @@ import { Button } from "@/components/ui/button";
 export const dynamic = "force-dynamic";
 
 export default function Inventory() {
-  const [inventory, setInventory] = useState([]);
+  const [inventory, setInventory] = useState<InventoryResponseDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -57,7 +78,7 @@ export default function Inventory() {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [showAdjustModal, setShowAdjustModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState<InventoryResponseDto | null>(null);
   const [transactionHistory, setTransactionHistory] = useState<
     InventoryTransactionResponseDto[]
   >([]);
@@ -69,7 +90,7 @@ export default function Inventory() {
   });
   const [showCreateProductModal, setShowCreateProductModal] = useState(false);
   const [showDeleteProductModal, setShowDeleteProductModal] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<CategoryResponseDto[]>([]);
   const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
   const [categoryForm, setCategoryForm] = useState({
     name: "",
@@ -219,7 +240,6 @@ export default function Inventory() {
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-          // @ts-expect-error: types aren't imported currently from backend
           productId: selectedProduct.productId,
           quantity: parseFloat(formData.quantity),
           notes: formData.notes,
@@ -240,13 +260,17 @@ export default function Inventory() {
   };
 
   const handleRemoveStock = async () => {
+    if (!selectedProduct) {
+      alert("No product selected");
+      return;
+    }
+
     try {
       const response = await fetch("/api/backend/inventory/remove", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-          // @ts-expect-error: types aren't imported currently from backend
           productId: selectedProduct.productId,
           quantity: parseFloat(formData.quantity),
           referenceId: formData.referenceId,
@@ -271,13 +295,17 @@ export default function Inventory() {
   };
 
   const handleAdjustStock = async () => {
+    if (!selectedProduct) {
+      alert("No product selected");
+      return;
+    }
+
     try {
       const response = await fetch("/api/backend/inventory/adjust", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-          // @ts-expect-error: types aren't imported currently from backend
           productId: selectedProduct.productId,
           newQuantity: parseFloat(formData.quantity),
           notes: formData.notes,
@@ -365,47 +393,40 @@ export default function Inventory() {
     setLoadingHistory(false);
   };
 
-  // @ts-expect-error: types aren't imported currently from backend
-  const openAddModal = (item) => {
+  const openAddModal = (item: InventoryResponseDto) => {
     setSelectedProduct(item);
     setShowAddModal(true);
   };
 
-  // @ts-expect-error: types aren't imported currently from backend
-  const openDeleteModal = (item) => {
+  const openDeleteModal = (item: InventoryResponseDto) => {
     setSelectedProduct(item);
     setShowDeleteProductModal(true);
   }
 
-  // @ts-expect-error: types aren't imported currently from backend
-  const openRemoveModal = (item) => {
+  const openRemoveModal = (item: InventoryResponseDto) => {
     setSelectedProduct(item);
     setShowRemoveModal(true);
   };
 
-  // @ts-expect-error: types aren't imported currently from backend
-  const openAdjustModal = (item) => {
+  const openAdjustModal = (item: InventoryResponseDto) => {
     setSelectedProduct(item);
     setFormData({ ...formData, quantity: item.quantity.toString() });
     setShowAdjustModal(true);
   };
 
-  // @ts-expect-error: types aren't imported currently from backend
-  const openHistoryModal = async (item) => {
+  const openHistoryModal = async (item: InventoryResponseDto) => {
     setSelectedProduct(item);
     setShowHistoryModal(true);
     await fetchTransactionHistory(item.productId);
   };
 
   const filteredInventory = searchTerm?.trim().length > 0 ? inventory.filter((item) => {
-    // @ts-expect-error: types aren't imported currently from backend
     return item.productName.toLowerCase().includes(searchTerm.toLowerCase())
   }
   ) : inventory;
 
-  // @ts-expect-error: types aren't imported currently from backend
-  const getStockStatus = (quantity) => {
-    const qty = parseFloat(quantity);
+  const getStockStatus = (quantity: number | string) => {
+    const qty = parseFloat(String(quantity));
     if (qty === 0)
       return { color: "text-red-100", bg: "bg-red-900", label: "Out of Stock" };
     if (qty < 10)
@@ -516,7 +537,6 @@ export default function Inventory() {
                   </tr>
                 ) : (
                   filteredInventory.map((item) => {
-                    // @ts-expect-error: types aren't imported currently from backend
                     const status = getStockStatus(item.quantity);
                     return (
                       <tr
@@ -533,22 +553,22 @@ export default function Inventory() {
                         </td>
                         <td className="py-3 px-4 text-center">
                           <span className="text-lg font-semibold text-gray-300">
-                            {parseFloat(item.basePrice).toFixed(2)}€
+                            {parseFloat(String(item.basePrice)).toFixed(2)}€
                           </span>
                         </td>
                         <td className="py-3 px-4 text-center">
                           <span className="text-lg text-gray-300">
-                            {isNaN(parseFloat(item.minPrice)) ? "--" : parseFloat(item.minPrice).toFixed(2)}€
+                            {isNaN(parseFloat(String(item.minPrice))) ? "--" : parseFloat(String(item.minPrice)).toFixed(2)}€
                           </span>
                         </td>
                         <td className="py-3 px-4 text-center">
                           <span className="text-lg text-gray-300">
-                            {isNaN(parseFloat(item.maxPrice)) ? "--" : parseFloat(item.maxPrice).toFixed(2)}€
+                            {isNaN(parseFloat(String(item.maxPrice))) ? "--" : parseFloat(String(item.maxPrice)).toFixed(2)}€
                           </span>
                         </td>
                         <td className="py-3 px-4 text-center">
                           <span className="text-lg font-semibold text-gray-300">
-                            {parseFloat(item.quantity).toFixed(2)}
+                            {parseFloat(String(item.quantity)).toFixed(2)}
                           </span>
                         </td>
                         <td className="py-3 px-4 text-center">
@@ -731,7 +751,7 @@ export default function Inventory() {
                   })
                 }
                 className="w-full px-3 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                rows="3"
+                rows={3}
                 placeholder="Product description (optional)"
               />
             </div>
@@ -821,7 +841,7 @@ export default function Inventory() {
               className="bg-rose-600 hover:bg-rose-700 text-white"
               onClick={() => {
                 const id = selectedProduct?.productId ?? selectedProduct?.id;
-                if (id) handleDeleteProduct(Number(id));
+                if (id) handleDeleteProduct(String(id));
               }}
             >
               Delete
@@ -934,7 +954,7 @@ export default function Inventory() {
                   setFormData({ ...formData, notes: e.target.value })
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                rows="3"
+                rows={3}
                 placeholder="e.g., Weekly restock"
               />
             </div>
@@ -1009,7 +1029,7 @@ export default function Inventory() {
                   setFormData({ ...formData, notes: e.target.value })
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                rows="3"
+                rows={3}
                 placeholder="e.g., Sold to customer"
               />
             </div>
@@ -1070,7 +1090,7 @@ export default function Inventory() {
                   setFormData({ ...formData, notes: e.target.value })
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                rows="3"
+                rows={3}
                 placeholder="e.g., Inventory correction"
               />
             </div>
